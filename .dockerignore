@@ -1,0 +1,15 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.git/
+.gitignore
+.agents/
+.gemini/
+skills-lock.json
+*.ipynb
+test_app.py
+~$*
+.DS_Store
+

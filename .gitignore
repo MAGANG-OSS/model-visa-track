@@ -4,3 +4,8 @@ __pycache__/
 venv/
 .env
 .ipynb_checkpoints/
+.agents/
+.gemini/
+skills-lock.json
+~$*
+

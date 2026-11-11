@@ -56,6 +56,7 @@ class TestVisaPredictionLogic(unittest.TestCase):
             'Last_Education_Year': 2022.0,
             'Application_Year': 2024.0,
             'Level_Kampus': 1.0,
+            'English_Proficiency': 6.5,
             'English_Proficiency_Cleaned': 6.5,
             'Related_Major': 1,
             'Has_Refusal': 0,

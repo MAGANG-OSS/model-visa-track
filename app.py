@@ -80,7 +80,7 @@ st.markdown("""
         max-width: 1240px !important;
         margin: 0 auto !important;
         padding-top: 1.8rem !important;
-        padding-bottom: 3rem !important;
+        padding-bottom: 14rem !important;
         padding-left: 2rem !important;
         padding-right: 2rem !important;
     }
@@ -254,7 +254,7 @@ st.markdown("""
         padding: 24px 30px !important;
         box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04) !important;
         gap: 12px !important;
-        overflow: hidden !important;
+        overflow: visible !important;
         width: 100% !important;
         box-sizing: border-box !important;
     }
@@ -264,7 +264,7 @@ st.markdown("""
         padding: 26px 32px 38px 32px !important;
     }
 
-    /* =========================================================
+        /* =========================================================
        SIDEBAR KIRI SESUAI CONTOH MOCKUP (BLUE GRADIENT ELEGAN)
        ========================================================= */
     [data-testid="stSidebar"] {
@@ -274,32 +274,151 @@ st.markdown("""
         border-right: none !important;
         box-shadow: 2px 0 16px rgba(0, 0, 0, 0.08) !important;
         overflow: hidden !important;
-        overflow-y: hidden !important;
+        height: 100dvh !important;
+        max-height: 100dvh !important;
     }
     [data-testid="stSidebar"] > div:first-child {
         background: transparent !important;
         overflow: hidden !important;
-        overflow-y: hidden !important;
-    }
-    [data-testid="stSidebarContent"],
-    [data-testid="stSidebarUserContent"] {
-        background: transparent !important;
-        padding-top: 14px !important;
-        padding-bottom: 14px !important;
-        padding-left: 20px !important;
-        padding-right: 20px !important;
-        box-sizing: border-box !important;
-        overflow: hidden !important;
-        overflow-y: hidden !important;
+        height: 100dvh !important;
+        max-height: 100dvh !important;
         display: flex !important;
         flex-direction: column !important;
-        justify-content: flex-start !important;
+    }
+    /* Sembunyikan default header streamlit */
+    [data-testid="stSidebarHeader"] {
+        display: none !important;
+        height: 0px !important;
+        padding: 0px !important;
+        margin: 0px !important;
+    }
+    /* stSidebarContent mengambil tinggi penuh tanpa scrollbar terpotong */
+    [data-testid="stSidebarContent"] {
+        background: transparent !important;
+        padding: 0px !important;
+        margin: 0px !important;
+        height: 100dvh !important;
+        max-height: 100dvh !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 1 100% !important;
+    }
+    [data-testid="stSidebarUserContent"] {
+        overflow: hidden !important;
+        background: transparent !important;
+        padding: 0px !important;
+        margin: 0px !important;
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 1 auto !important;
+    }
+    /* Hilangkan scrollbar default Streamlit di wrapper luar */
+    [data-testid="stSidebar"]::-webkit-scrollbar,
+    [data-testid="stSidebar"] > div::-webkit-scrollbar,
+    [data-testid="stSidebarContent"]::-webkit-scrollbar {
+        display: none !important;
+        width: 0px !important;
+        height: 0px !important;
+    }
+
+    /* Container wrapper flexbox vertikal penuh (100dvh) */
+    .sidebar-root {
+        height: 100dvh;
+        max-height: 100dvh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-sizing: border-box;
+        overflow: hidden;
+        position: relative;
+    }
+
+    /* Area scrollable body tunggal, responsif, memanjang sepanjang sidebar */
+    .sidebar-scrollable-body {
+        flex: 1 1 auto;
+        width: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+        padding: 24px 20px 16px 20px;
+        box-sizing: border-box;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+    }
+    /* 1 Scrollbar vertikal tunggal yang tipis, bersih, dan responsif memanjang */
+    .sidebar-scrollable-body::-webkit-scrollbar {
+        width: 4px !important;
+    }
+    .sidebar-scrollable-body::-webkit-scrollbar-track {
+        background: transparent !important;
+    }
+    .sidebar-scrollable-body::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.25) !important;
+        border-radius: 4px !important;
+    }
+    .sidebar-scrollable-body::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.45) !important;
+    }
+    .sidebar-scrollable-body::-webkit-scrollbar:horizontal {
+        display: none !important;
+        height: 0px !important;
+    }
+
+    /* Kelompok logo dan stepper menu diturunkan dan dipusatkan seimbang secara vertikal */
+    .sidebar-center-group {
+        margin: auto 0;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    /* Matikan celah vertikal Streamlit bawaan di sidebar & set tinggi penuh */
+    [data-testid="stSidebar"] div[data-testid="stVerticalBlock"] {
+        gap: 0px !important;
+        row-gap: 0px !important;
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 1 auto !important;
+        overflow: hidden !important;
+    }
+    [data-testid="stSidebar"] div[data-testid="stElementContainer"] {
+        margin: 0px !important;
+        padding: 0px !important;
+    }
+    [data-testid="stSidebar"] div[data-testid="stVerticalBlock"] > div[data-testid="stElementContainer"]:first-child {
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 1 auto !important;
+        overflow: hidden !important;
+    }
+    [data-testid="stSidebar"] div[data-testid="stVerticalBlock"] > div[data-testid="stElementContainer"]:first-child > div[data-testid="stMarkdownContainer"] {
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        flex: 1 1 auto !important;
+        width: 100% !important;
+        overflow: hidden !important;
+    }
+    [data-testid="stSidebar"] div[data-testid="stVerticalBlock"] > div[data-testid="stElementContainer"]:nth-child(n+2) {
+        display: none !important;
+        height: 0px !important;
+        min-height: 0px !important;
+        margin: 0px !important;
+        padding: 0px !important;
+        overflow: hidden !important;
     }
     [data-testid="stSidebarCollapseButton"] {
         display: none !important;
     }
 
-    /* Sidebar Brand */
+    /* Sidebar Brand (Posisi lebih turun dan seimbang) */
     .sidebar-brand-wrapper {
         margin-top: 0 !important;
         margin-bottom: 20px !important;
@@ -324,10 +443,10 @@ st.markdown("""
         font-family: 'Poppins', sans-serif;
     }
     .sidebar-brand-sub {
-        color: rgba(255, 255, 255, 0.8);
+        color: rgba(255, 255, 255, 0.82);
         font-size: 12px;
         line-height: 1.45;
-        margin-top: 8px;
+        margin-top: 6px;
         font-family: 'Poppins', sans-serif;
     }
 
@@ -335,20 +454,52 @@ st.markdown("""
     .sidebar-stepper-menu {
         display: flex;
         flex-direction: column;
-        gap: 0;
-        margin-top: 10px;
+        margin-top: 6px;
+        margin-bottom: 10px;
     }
+
+    /* Sidebar Stepper Rows - 100% Identik Gambar User */
     .sidebar-step-row {
         display: flex;
         align-items: flex-start;
         gap: 14px;
         position: relative;
+        text-decoration: none !important;
+        user-select: none !important;
+        transition: all 0.15s ease;
+        padding: 2px 4px;
+        border-radius: 8px;
+    }
+    .sidebar-step-row.clickable {
+        cursor: pointer !important;
+    }
+    .sidebar-step-row.clickable:hover {
+        background: rgba(255, 255, 255, 0.08) !important;
+    }
+    .sidebar-step-row.clickable:hover .sidebar-step-title {
+        color: #FFFFFF !important;
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+    }
+    .sidebar-step-row.clickable:hover .sidebar-step-circle {
+        border-color: #FFFFFF !important;
+        background: rgba(255, 255, 255, 0.22) !important;
+    }
+    .sidebar-step-row,
+    .sidebar-step-row *,
+    .sidebar-step-title,
+    .sidebar-step-desc {
+        text-decoration: none !important;
+    }
+    .sidebar-step-row.locked {
+        cursor: not-allowed !important;
+        opacity: 0.55 !important;
     }
     .sidebar-step-node {
         display: flex;
         flex-direction: column;
         align-items: center;
         width: 30px;
+        min-width: 30px;
         flex-shrink: 0;
     }
     .sidebar-step-circle {
@@ -376,17 +527,20 @@ st.markdown("""
         color: #FFFFFF;
         border: 1.5px solid #FFFFFF;
     }
+    /* Tinggi connector 20px pas dan nyaman di layar */
     .sidebar-step-connector {
         width: 2px;
-        height: 28px;
+        height: 20px;
         border-left: 2px dashed rgba(255, 255, 255, 0.35);
-        margin: 3px 0;
+        margin: 2px 0;
     }
     .sidebar-step-content {
         display: flex;
         flex-direction: column;
-        padding-top: 3px;
-        padding-bottom: 10px;
+        padding-top: 2px;
+        padding-bottom: 4px;
+        flex: 1;
+        overflow: hidden;
     }
     .sidebar-step-title {
         color: rgba(255, 255, 255, 0.75);
@@ -414,14 +568,37 @@ st.markdown("""
         color: rgba(255, 255, 255, 0.88);
     }
 
-    /* Sidebar Footer */
+        /* Sidebar Footer selalu menempel di area paling bawah */
+    .sidebar-footer-container {
+        margin-top: auto;
+        flex-shrink: 0;
+        width: 100%;
+        padding: 14px 20px 20px 20px;
+        box-sizing: border-box;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
     .sidebar-footer-text {
-        color: rgba(255, 255, 255, 0.45);
+        color: rgba(255, 255, 255, 0.5);
         font-size: 11px;
-        white-space: nowrap !important;
-        margin-top: 64px;
-        padding-top: 8px;
+        white-space: normal !important;
+        word-break: break-word !important;
+        margin: 0 !important;
+        padding: 0px !important;
+        line-height: 1.4 !important;
         font-family: 'Poppins', sans-serif;
+        text-align: left;
+    }
+
+    /* Invisible Sidebar Action Buttons */
+    div[class*="st-key-sb_nav_btn_"] {
+        position: fixed !important;
+        left: -9999px !important;
+        top: -9999px !important;
+        width: 1px !important;
+        height: 1px !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        overflow: hidden !important;
     }
 
     /* Main Area Header Above Card */
@@ -591,9 +768,7 @@ st.markdown("""
     div[data-testid="stSelectbox"] > div:nth-child(2),
     div[data-testid="stSelectbox"] div[data-baseweb="select"] > div,
     div[data-testid="stNumberInput"] div:has(> input),
-    div[data-testid="stNumberInput"] div[data-baseweb="input"],
-    div[data-baseweb="input"],
-    div[data-baseweb="select"] > div {
+    div[data-testid="stNumberInput"] div[data-baseweb="input"] {
         background-color: #FFFFFF !important;
         background: #FFFFFF !important;
         border: 1.5px solid #CBD5E1 !important;
@@ -682,13 +857,11 @@ st.markdown("""
     div[data-testid="stTextInput"] div[class*="e1bh1cux2"]:hover,
     div[data-testid="stTextInput"] div:has(> input):hover,
     div[data-testid="stTextInput"] div[data-baseweb="input"]:hover,
-    div[data-baseweb="input"]:hover,
     div[data-testid="stSelectbox"] div.react-aria-Group:hover,
     div[data-testid="stSelectbox"] div[class*="e1oobldh0"]:hover,
     div[data-testid="stSelectbox"] div[role="group"]:hover,
     div[data-testid="stSelectbox"] div:has(> input):hover,
-    div[data-testid="stSelectbox"] div[data-baseweb="select"] > div:hover,
-    div[data-baseweb="select"] > div:hover {
+    div[data-testid="stSelectbox"] div[data-baseweb="select"] > div:hover {
         border: 1.5px solid #94A3B8 !important;
         border-color: #94A3B8 !important;
         box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.15) !important;
@@ -704,13 +877,11 @@ st.markdown("""
     div[data-testid="stTextInput"] div[class*="e1bh1cux2"]:focus-within,
     div[data-testid="stTextInput"] div:has(> input):focus-within,
     div[data-testid="stTextInput"] div[data-baseweb="input"]:focus-within,
-    div[data-baseweb="input"]:focus-within,
     div[data-testid="stSelectbox"] div.react-aria-Group:focus-within,
     div[data-testid="stSelectbox"] div[class*="e1oobldh0"]:focus-within,
     div[data-testid="stSelectbox"] div[role="group"]:focus-within,
     div[data-testid="stSelectbox"] div:has(> input):focus-within,
-    div[data-testid="stSelectbox"] div[data-baseweb="select"] > div:focus-within,
-    div[data-baseweb="select"] > div:focus-within {
+    div[data-testid="stSelectbox"] div[data-baseweb="select"] > div:focus-within {
         border: 1.5px solid #0284C7 !important;
         border-color: #0284C7 !important;
         background-color: #FFFFFF !important;
@@ -1528,10 +1699,185 @@ st.markdown("""
         font-family: 'Poppins', sans-serif;
         line-height: 1.35;
     }
+
+
+
+
+    /* Calendar & Floating UI Popover Protection: Mencegah kalender & dropdown tahun glitch/tertutup sendiri */
+    #stFloatingOverlayPortal {
+        z-index: 99999999 !important;
+        pointer-events: auto !important;
+    }
+    div[data-testid="stDateInputCalendar"],
+    div[data-testid="stDateInputHeaderPickerPopover"],
+    div[data-testid="stDateInputQuickSelectPopover"],
+    div[data-baseweb="popover"],
+    div[data-baseweb="calendar"] {
+        z-index: 99999999 !important;
+        pointer-events: auto !important;
+        box-sizing: border-box !important;
+    }
+    div[data-testid="stDateInputHeaderPickerPopover"] {
+        max-height: 220px !important;
+        overflow-y: auto !important;
+        background-color: #FFFFFF !important;
+        border: 1px solid #CBD5E1 !important;
+        border-radius: 8px !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+    }
+    div[data-testid="stDateInputCalendar"] {
+        background-color: #FFFFFF !important;
+        border-radius: 10px !important;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12) !important;
+        font-family: 'Poppins', sans-serif !important;
+    }
+    div[data-testid="stDateInputCalendar"] button,
+    div[data-testid="stDateInputCalendar"] div {
+        min-height: unset !important;
+    }
+    div[data-testid="stDateInputClearButton"] {
+        cursor: pointer !important;
+        pointer-events: auto !important;
+    }
+    div[data-testid="stDateInputClearButton"] svg {
+        color: #0284C7 !important;
+        fill: #0284C7 !important;
+    }
+    div[data-testid="stDateInputCalendarButton"] svg {
+        color: #0284C7 !important;
+    }
+    div[data-baseweb="popover"] div[data-baseweb="select"] > div,
+    div[data-baseweb="calendar"] div[data-baseweb="select"] > div,
+    div[data-baseweb="calendar"] div[data-baseweb="input"],
+    div[data-baseweb="calendar"] input,
+    div[data-baseweb="calendar"] button,
+    div[data-baseweb="calendar"] div {
+        min-height: unset !important;
+        height: auto !important;
+        border-radius: 4px !important;
+    }
+    div[data-baseweb="popover"] {
+        z-index: 9999999 !important;
+    }
+    div[data-baseweb="calendar"] {
+        background-color: #FFFFFF !important;
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    /* Clean, Modern Input & Selectbox Styling (Zero JS delay) */
+    div[data-testid="stSelectbox"] div[data-baseweb="select"] > div,
+    div[data-testid="stSelectbox"] div.react-aria-Group,
+    div[data-testid="stSelectbox"] div[class*="e1oobldh0"],
+    div[data-testid="stSelectbox"] div[role="group"] {
+        background-color: #FFFFFF !important;
+        border: 1.5px solid #CBD5E1 !important;
+        border-radius: 8px !important;
+        min-height: 42px !important;
+        height: 42px !important;
+        box-sizing: border-box !important;
+    }
+    div[data-testid="stTextInput"] div[data-baseweb="input"],
+    div[data-testid="stTextInput"] [data-testid="stTextInputRootElement"],
+    div[data-testid="stTextInput"] div.react-aria-Group,
+    div[data-testid="stTextInput"] div[class*="e1bh1cux2"] {
+        background-color: #FFFFFF !important;
+        border: 1.5px solid #CBD5E1 !important;
+        border-radius: 8px !important;
+        min-height: 42px !important;
+        box-sizing: border-box !important;
+    }
+    div[data-testid="stTextInput"] input,
+    div[data-testid="stSelectbox"] input {
+        color: #17324D !important;
+        font-size: 13px !important;
+    }
+    div[class*="st-key-inner_card_sec4"] div[data-testid="stSelectbox"] [data-testid="stWidgetLabel"],
+    div[class*="st-key-inner_card_sec4"] div[data-testid="stSelectbox"] label {
+        min-height: 22px !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+
+    /* Card & Button Direktori Kampus Mitra OSS Bali (True Modern Button) */
+    div[class*="st-key-card_oss_directory"] {
+        background-color: #FFFFFF !important;
+        border: 1.5px solid #38BDF8 !important;
+        border-left: 5px solid #0284C7 !important;
+        border-radius: 10px !important;
+        padding: 14px 20px !important;
+        margin-top: 20px !important;
+        margin-bottom: 20px !important;
+        box-shadow: 0 2px 6px rgba(2, 132, 199, 0.08) !important;
+    }
+    div[class*="st-key-card_oss_directory"] div[data-testid="stHorizontalBlock"] {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 16px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    div[class*="st-key-card_oss_directory"] div[data-testid="column"] {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        margin: 0 !important;
+    }
+    div[class*="st-key-card_oss_directory"] [data-testid="stMarkdownContainer"] p {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    div[class*="st-key-card_oss_directory"] [data-testid="stLinkButton"] {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    div[class*="st-key-card_oss_directory"] [data-testid="stLinkButton"] a {
+        background-color: #0284C7 !important;
+        background: linear-gradient(180deg, #0284C7 0%, #0369A1 100%) !important;
+        color: #FFFFFF !important;
+        border: 1.5px solid #0284C7 !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        font-size: 13px !important;
+        padding: 10px 20px !important;
+        min-height: 42px !important;
+        transition: all 0.2s ease !important;
+        cursor: pointer !important;
+        box-shadow: 0 2px 5px rgba(2, 132, 199, 0.25) !important;
+        text-align: center !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-decoration: none !important;
+        width: 100% !important;
+    }
+    div[class*="st-key-card_oss_directory"] [data-testid="stLinkButton"] a:hover {
+        background-color: #0369A1 !important;
+        background: linear-gradient(180deg, #0369A1 0%, #075985 100%) !important;
+        border-color: #0369A1 !important;
+        color: #FFFFFF !important;
+        box-shadow: 0 4px 10px rgba(2, 132, 199, 0.38) !important;
+        transform: translateY(-1px) !important;
+    }
+    div[class*="st-key-card_oss_directory"] [data-testid="stLinkButton"] a p,
+    div[class*="st-key-card_oss_directory"] [data-testid="stLinkButton"] a span,
+    div[class*="st-key-card_oss_directory"] [data-testid="stLinkButton"] a * {
+        color: #FFFFFF !important;
+        font-weight: 600 !important;
+        font-size: 13px !important;
+        text-decoration: none !important;
+    }
+
 </style>
 """, unsafe_allow_html=True)
 
-# Inject Poppins into parent document head
+# Inject Poppins into parent document head & Attach Sidebar Navbar Click Listener + Global Scroll-to-Top
 components.html("""
 <script>
 try {
@@ -1555,6 +1901,49 @@ try {
             }
         `;
         doc.head.appendChild(style);
+    }
+
+    window.parent.__visaTrackScrollToTop = function() {
+        try {
+            const win = window.parent;
+            const d = win.document;
+            const appView = d.querySelector('[data-testid="stAppViewContainer"]');
+            if (appView) appView.scrollTop = 0;
+            const mainSec = d.querySelector('section.main') || d.querySelector('.main');
+            if (mainSec) mainSec.scrollTop = 0;
+            win.scrollTo(0, 0);
+        } catch(e) {}
+    };
+
+    if (!window.parent.__visaTrackNavAttached) {
+        window.parent.__visaTrackNavAttached = true;
+        doc.addEventListener('click', function(e) {
+            // Klik baris stepbar navigasi sidebar
+            const row = e.target.closest('.sidebar-step-row.clickable');
+            if (row) {
+                const step = row.getAttribute('data-step');
+                if (step) {
+                    const btnWrap = doc.querySelector('.st-key-sb_nav_btn_' + step);
+                    if (btnWrap) {
+                        const btn = btnWrap.querySelector('button');
+                        if (btn) {
+                            window.parent.__visaTrackScrollToTop();
+                            btn.click();
+                        }
+                    }
+                }
+                return;
+            }
+
+            // Klik tombol navigasi antar section (Lanjut, Selanjutnya, Kembali, Prediksi, Edit Data)
+            const navBtn = e.target.closest('button');
+            if (navBtn) {
+                const txt = (navBtn.innerText || '').toLowerCase();
+                if (txt.includes('lanjut') || txt.includes('selanjutnya') || txt.includes('kembali') || txt.includes('prediksi') || txt.includes('edit data') || txt.includes('analisis')) {
+                    window.parent.__visaTrackScrollToTop();
+                }
+            }
+        });
     }
 } catch (e) {}
 </script>
@@ -1583,6 +1972,24 @@ except Exception as e:
 if "current_section" not in st.session_state:
     st.session_state.current_section = 1
 
+if "max_unlocked_step" not in st.session_state:
+    st.session_state.max_unlocked_step = 1
+
+# Check if URL parameter ?sec=X is requested (via sidebar link click)
+if "sec" in st.query_params:
+    try:
+        req_sec = int(st.query_params.get("sec", 1))
+        max_allowed = st.session_state.get("max_unlocked_step", 1)
+        if 1 <= req_sec <= max_allowed:
+            st.session_state.current_section = req_sec
+    except (ValueError, TypeError):
+        pass
+
+st.session_state.max_unlocked_step = max(
+    st.session_state.get("max_unlocked_step", 1),
+    st.session_state.current_section
+)
+
 if "fin_input_str" not in st.session_state:
     st.session_state.fin_input_str = ""
 
@@ -1599,13 +2006,13 @@ current_year = today.year
 def on_ielts_change():
     val = st.session_state.ielts_raw_input.strip().replace(",", ".")
     if val:
-        if val.isdigit() and len(val) == 2 and int(val) >= 40 and int(val) <= 90:
+        if val.isdigit() and len(val) == 2 and int(val) >= 10 and int(val) <= 90:
             val = f"{int(val)/10:.1f}"
             st.session_state.ielts_raw_input = val
         else:
             try:
                 num = float(val)
-                if num.is_integer() and 4 <= num <= 9:
+                if num.is_integer() and 1 <= num <= 9:
                     st.session_state.ielts_raw_input = f"{num:.1f}"
             except ValueError:
                 pass
@@ -1616,16 +2023,33 @@ def on_financial_change():
     clean_digits = "".join([c for c in str(val) if c.isdigit()])
     if clean_digits:
         num = int(clean_digits)
-        st.session_state.fin_input_str = f"{num:,}".replace(",", ".")
+        formatted = f"{num:,}".replace(",", ".")
+        st.session_state.fin_input_str = formatted
+        st.session_state.fin_raw_input = formatted
+        st.session_state.financial_nominal = float(num)
     else:
         st.session_state.fin_input_str = ""
+        st.session_state.fin_raw_input = ""
+        st.session_state.financial_nominal = None
+
+def on_campus_level_change():
+    val = str(st.session_state.get("select_campus_level", ""))
+    if "Level 1" in val:
+        st.session_state["campus_level_idx"] = 0
+        st.session_state["level_kampus"] = 1.0
+    elif "Level 2" in val:
+        st.session_state["campus_level_idx"] = 1
+        st.session_state["level_kampus"] = 2.0
+    else:
+        st.session_state["campus_level_idx"] = 2
+        st.session_state["level_kampus"] = 3.0
 
 # Helper Stepper UI (Design ala Image 1: White Card + Connected Nodes + Checkmarks)
 def render_stepper(current_step):
     steps = [
         (1, "1. Data Pengajuan"), 
-        (2, "2. Pendidikan & Gap"), 
-        (3, "3. Pathway & Kampus"), 
+        (2, "2. Pendidikan & Jeda Studi"), 
+        (3, "3. Jalur Studi (Pathway) & Kampus"), 
         (4, "4. Profil & Riwayat")
     ]
     parts = []
@@ -1676,30 +2100,58 @@ def render_stepper(current_step):
     return f'<div class="stepper-card"><div class="stepper-container">{"".join(parts)}</div></div>'
 
 # =============================================================
-# SIDEBAR KIRI (BRANDING & VERTICAL STEPPER SESUAI MOCKUP)
+# DETEKSI PERPINDAHAN SECTION
 # =============================================================
-def render_sidebar(current_step):
+_prev_rendered_sec = st.session_state.get("_active_rendered_section", None)
+_curr_rendered_sec = st.session_state.current_section
+_sec_changed = (_prev_rendered_sec != _curr_rendered_sec)
+st.session_state["_active_rendered_section"] = _curr_rendered_sec
+
+# =============================================================
+# SIDEBAR KIRI (100% IDENTIK MOCKUP GAMBAR USER + DIRECT NATIVE CLICK)
+# =============================================================
+with st.sidebar:
+    current_step = st.session_state.current_section
+    max_unlocked = st.session_state.get("max_unlocked_step", 1)
+    if current_step == 5:
+        max_unlocked = 5
+        st.session_state.max_unlocked_step = 5
+
     steps_data = [
         (1, "Data Pengajuan", "Informasi dasar pemohon"),
-        (2, "Pendidikan & Gap", "Riwayat pendidikan"),
-        (3, "Pathway & Kampus", "Pilihan studi"),
+        (2, "Pendidikan & Jeda Studi", "Riwayat pendidikan & jeda"),
+        (3, "Jalur Studi (Pathway)", "Pilihan jenjang & kampus"),
         (4, "Profil & Riwayat", "Pengalaman dan latar belakang")
     ]
+    if max_unlocked >= 5:
+        steps_data.append((5, "Hasil Prediksi", "Evaluasi & rekomendasi visa"))
+
     step_rows = []
+    total_steps = len(steps_data)
     for idx, (num, title, desc) in enumerate(steps_data):
-        if num < current_step:
+        is_active = (current_step == num)
+        is_completed = (num < current_step) or (current_step == 5 and num < 5)
+        is_unlocked = (num <= max_unlocked)
+        is_last = (idx == total_steps - 1)
+
+        if num == 5:
+            state_class = "active" if is_active else "completed"
+            circle_inner = "★"
+        elif is_completed:
             state_class = "completed"
             circle_inner = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>'
-        elif num == current_step:
+        elif is_active:
             state_class = "active"
             circle_inner = str(num)
         else:
             state_class = "pending"
             circle_inner = str(num)
-        
-        connector_html = '<div class="sidebar-step-connector"></div>' if idx < len(steps_data) - 1 else ''
-        step_row = (
-            f'<div class="sidebar-step-row {state_class}">'
+
+        clickable_class = "clickable" if (is_unlocked and not is_active) else ("active" if is_active else "locked")
+        connector_html = '<div class="sidebar-step-connector"></div>' if not is_last else ''
+
+        step_row_html = (
+            f'<div class="sidebar-step-row {state_class} {clickable_class}" data-step="{num}">'
             f'<div class="sidebar-step-node">'
             f'<div class="sidebar-step-circle">{circle_inner}</div>'
             f'{connector_html}'
@@ -1710,10 +2162,14 @@ def render_sidebar(current_step):
             f'</div>'
             f'</div>'
         )
-        step_rows.append(step_row)
-    
-    menu_html = "".join(step_rows)
-    html = (
+        step_rows.append(step_row_html)
+
+    stepper_html = "".join(step_rows)
+
+    sidebar_full_html = (
+        '<div class="sidebar-root">'
+        '<div class="sidebar-scrollable-body">'
+        '<div class="sidebar-center-group">'
         '<div class="sidebar-brand-wrapper">'
         '<div class="sidebar-brand-header">'
         '<div class="sidebar-brand-icon">'
@@ -1727,13 +2183,21 @@ def render_sidebar(current_step):
         '</div>'
         '<div class="sidebar-brand-sub">Prediksi Keberhasilan<br>Student Visa Australia</div>'
         '</div>'
-        f'<div class="sidebar-stepper-menu">{menu_html}</div>'
-        '<div class="sidebar-footer-text">&copy; 2026 Visa Track, All rights reserved.</div>'
+        f'<div class="sidebar-stepper-menu">{stepper_html}</div>'
+        '</div>'
+        '</div>'
+        '<div class="sidebar-footer-container">'
+        '<div class="sidebar-footer-text">&copy; 2026 Visa Track. All rights reserved.</div>'
+        '</div>'
+        '</div>'
     )
-    return html
+    st.markdown(sidebar_full_html, unsafe_allow_html=True)
 
-with st.sidebar:
-    st.markdown(render_sidebar(st.session_state.current_section), unsafe_allow_html=True)
+    # Invisible action buttons for sidebar navbar navigation
+    for n in range(1, 6):
+        if st.button(" ", key=f"sb_nav_btn_{n}"):
+            st.session_state.current_section = n
+            st.rerun()
 
 # =============================================================
 # JIKA SEDANG DI TAHAP FORM INPUT (SECTION 1 s/d 4)
@@ -1757,9 +2221,10 @@ if st.session_state.current_section in [1, 2, 3, 4]:
             with st.container(border=True, key="inner_card_sec1"):
                 d1, d2 = st.columns(2)
                 with d1:
+                    saved_birth = st.session_state.get("birth_date", None)
                     birth_date = st.date_input(
                         "Tanggal Lahir Student :red[*]",
-                        value=None,
+                        value=saved_birth,
                         min_value=date(1960, 1, 1),
                         max_value=date(current_year - 14, 12, 31),
                         format="DD/MM/YYYY",
@@ -1788,9 +2253,10 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                         )
 
                 with d2:
+                    saved_apply = st.session_state.get("apply_date", None)
                     apply_date = st.date_input(
-                        "Waktu Pengajuan Visa (Apply) :red[*]",
-                        value=None,
+                        "Waktu Pengajuan Visa :red[*]",
+                        value=saved_apply,
                         min_value=date(2015, 1, 1),
                         max_value=date(current_year + 2, 12, 31),
                         format="DD/MM/YYYY",
@@ -1862,7 +2328,7 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                         '<circle cx="12" cy="12" r="9"></circle><polyline points="12 6 12 12 16 14"></polyline>'
                         '</svg></div>'
                         '<div class="calc-col-age">'
-                        '<div class="calc-label">Usia Saat Apply</div>'
+                        '<div class="calc-label">Usia Saat Pengajuan</div>'
                         f'<div class="calc-val-age">{age_val} Tahun</div>'
                         '</div>'
                         '<div class="calc-divider"></div>'
@@ -1882,18 +2348,20 @@ if st.session_state.current_section in [1, 2, 3, 4]:
             c_btn1, c_btn2 = st.columns([4.4, 1.2])
             with c_btn2:
                 if st.button("Selanjutnya", key="btn_next_1", use_container_width=True):
+                    eff_birth = birth_date or st.session_state.get("birth_date")
+                    eff_apply = apply_date or st.session_state.get("apply_date")
                     has_err = False
-                    if birth_date is None:
+                    if eff_birth is None:
                         st.session_state["sec1_birth_err"] = True
                         has_err = True
                     else:
                         st.session_state["sec1_birth_err"] = False
 
-                    if apply_date is None:
+                    if eff_apply is None:
                         st.session_state["sec1_apply_err"] = True
                         st.session_state["sec1_apply_err_msg"] = "Silahkan masukkan waktu pengajuan visa"
                         has_err = True
-                    elif birth_date and apply_date < birth_date:
+                    elif eff_birth and eff_apply < eff_birth:
                         st.session_state["sec1_apply_err"] = True
                         st.session_state["sec1_apply_err_msg"] = "Waktu Pengajuan Visa tidak boleh lebih awal dari Tanggal Lahir Student."
                         has_err = True
@@ -1905,6 +2373,8 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                         st.session_state["sec1_error"] = None
                         st.rerun()
                     else:
+                        st.session_state["birth_date"] = eff_birth
+                        st.session_state["apply_date"] = eff_apply
                         st.session_state["sec1_error"] = None
                         st.session_state["sec1_birth_err"] = False
                         st.session_state["sec1_apply_err"] = False
@@ -1915,56 +2385,7 @@ if st.session_state.current_section in [1, 2, 3, 4]:
         birth_err_val = "true" if (st.session_state.get("sec1_birth_err") and birth_date is None) else "false"
         apply_err_val = "true" if (st.session_state.get("sec1_apply_err") and (apply_date is None or (birth_date and apply_date < birth_date))) else "false"
 
-        components.html(f"""
-        <script>
-        function applyInputGreyBorders() {{
-            try {{
-                const doc = window.parent.document;
-                const hasBirthErr = {birth_err_val};
-                const hasApplyErr = {apply_err_val};
 
-                // Ambil kolom di inner_card_sec1
-                const cols = doc.querySelectorAll('div[class*="st-key-inner_card_sec1"] div[data-testid="column"]');
-                if (cols.length >= 2) {{
-                    const styleInput = (col, isErr) => {{
-                        const targetEls = col.querySelectorAll('[data-baseweb="input"], [data-testid="stDateInputField"]');
-                        targetEls.forEach(el => {{
-                            if (isErr) {{
-                                el.style.setProperty('border', '1.5px solid #EF4444', 'important');
-                                el.style.setProperty('border-color', '#EF4444', 'important');
-                                el.style.setProperty('box-shadow', '0 0 0 1px rgba(239, 68, 68, 0.2)', 'important');
-                            }} else {{
-                                el.style.setProperty('border', '1.5px solid #CBD5E1', 'important');
-                                el.style.setProperty('border-color', '#CBD5E1', 'important');
-                                el.style.setProperty('box-shadow', 'none', 'important');
-                            }}
-                            el.style.setProperty('background-color', '#FFFFFF', 'important');
-                            el.style.setProperty('border-radius', '8px', 'important');
-                            el.style.setProperty('height', '42px', 'important');
-                        }});
-                    }};
-                    styleInput(cols[0], hasBirthErr);
-                    styleInput(cols[1], hasApplyErr);
-                }}
-
-                // Input date placeholder
-                const textInputs = doc.querySelectorAll('div[data-testid="stDateInput"] input');
-                if (textInputs.length >= 1 && !textInputs[0].value) {{
-                    textInputs[0].placeholder = "Pilih tanggal lahir student";
-                }}
-                if (textInputs.length >= 2 && !textInputs[1].value) {{
-                    textInputs[1].placeholder = "Pilih tanggal pengajuan visa";
-                }}
-            }} catch(e) {{}}
-        }}
-        applyInputGreyBorders();
-        setTimeout(applyInputGreyBorders, 30);
-        setTimeout(applyInputGreyBorders, 100);
-        setTimeout(applyInputGreyBorders, 250);
-        setTimeout(applyInputGreyBorders, 500);
-        setTimeout(applyInputGreyBorders, 900);
-        </script>
-        """, height=0, width=0)
 
     # ---------------------------------------------------------
     # SECTION 2: INFORMASI PENDIDIKAN TERAKHIR & GAP
@@ -1973,7 +2394,7 @@ if st.session_state.current_section in [1, 2, 3, 4]:
         st.markdown(
             '<div class="main-page-header">'
             '<div class="main-step-eyebrow">LANGKAH 02 / 04</div>'
-            '<div class="main-step-title">Informasi Pendidikan Terakhir & Gap</div>'
+            '<div class="main-step-title">Informasi Pendidikan Terakhir & Jeda Studi (Gap)</div>'
             '<div class="main-step-desc">Kelompokkan informasi tahun kelulusan terakhir dan durasi jeda studi student.</div>'
             '</div>',
             unsafe_allow_html=True
@@ -1981,13 +2402,42 @@ if st.session_state.current_section in [1, 2, 3, 4]:
 
         with st.container(border=True, key="outer_card_sec2"):
             with st.container(border=True, key="inner_card_sec2"):
+                degree_options = [
+                    "SMA / SMK",
+                    "Diploma Satu (D1)",
+                    "Diploma Dua (D2)",
+                    "Diploma Tiga (D3)",
+                    "Diploma Empat (D4)",
+                    "S1 (Strata 1)",
+                    "S2 (Strata 2)"
+                ]
+                saved_degree_idx = st.session_state.get("last_edu_degree_idx", 0)
+                if saved_degree_idx >= len(degree_options):
+                    saved_degree_idx = 0
+                last_edu_degree = st.selectbox(
+                    "Kualifikasi Pendidikan Terakhir",
+                    options=degree_options,
+                    index=saved_degree_idx,
+                    key="select_last_edu_degree",
+                    help="Pilih jenjang pendidikan formal terakhir yang telah diselesaikan oleh student."
+                )
+                st.session_state["last_edu_degree"] = last_edu_degree
+                st.session_state["last_edu_degree_idx"] = degree_options.index(last_edu_degree) if last_edu_degree in degree_options else 0
+
+                st.markdown("<div style='height: 6px;'></div>", unsafe_allow_html=True)
+
+                gap_options = ["Mengetahui Bulan dan Tahun", "Hanya Mengetahui Tahun"]
+                saved_gap_mode = st.session_state.get("gap_mode", gap_options[0])
+                gap_idx = gap_options.index(saved_gap_mode) if saved_gap_mode in gap_options else 0
                 gap_mode = st.radio(
-                    "Perhitungan Gap",
-                    options=["Mengetahui Bulan dan Tahun", "Hanya Mengetahui Tahun"],
+                    "Perhitungan Jeda Studi (Gap)",
+                    options=gap_options,
+                    index=gap_idx,
                     key="radio_gap_mode",
                     horizontal=True,
                     label_visibility="visible"
                 )
+                st.session_state["gap_mode"] = gap_mode
 
                 app_year = st.session_state.get("app_year", current_year)
                 apply_date = st.session_state.get("apply_date", today)
@@ -2159,7 +2609,7 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                     '<circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>'
                     '</svg></div>'
                     '<div class="calc-col-age">'
-                    '<div class="calc-label">Durasi Gap Studi</div>'
+                    '<div class="calc-label">Durasi Jeda Studi (Gap)</div>'
                     f'<div class="calc-val-age">{gap_val_text} {gap_sub_badge}</div>'
                     '</div>'
                     '<div class="calc-divider"></div>'
@@ -2307,11 +2757,7 @@ if st.session_state.current_section in [1, 2, 3, 4]:
             }} catch(e) {{}}
         }}
         bindYearAutoCommitAndBorders();
-        setTimeout(bindYearAutoCommitAndBorders, 30);
-        setTimeout(bindYearAutoCommitAndBorders, 100);
-        setTimeout(bindYearAutoCommitAndBorders, 250);
-        setTimeout(bindYearAutoCommitAndBorders, 500);
-        setTimeout(bindYearAutoCommitAndBorders, 900);
+        setTimeout(bindYearAutoCommitAndBorders, 50);
         </script>
         """, height=0, width=0)
 
@@ -2322,7 +2768,7 @@ if st.session_state.current_section in [1, 2, 3, 4]:
         st.markdown(
             '<div class="main-page-header">'
             '<div class="main-step-eyebrow">LANGKAH 03 / 04</div>'
-            '<div class="main-step-title">Pathway & Kampus Pilihan</div>'
+            '<div class="main-step-title">Jalur Studi (Pathway) & Kampus Pilihan</div>'
             '<div class="main-step-desc">Pilih jenjang studi, kampus di Australia, dan durasi rencana studi.</div>'
             '</div>',
             unsafe_allow_html=True
@@ -2332,23 +2778,41 @@ if st.session_state.current_section in [1, 2, 3, 4]:
             with st.container(border=True, key="inner_card_sec3"):
                 p1, p2 = st.columns(2)
                 with p1:
+                    campus_options = [
+                        "Level 1 — University",
+                        "Level 2 — Vocational / Polytechnic / TAFE",
+                        "Level 3 — College / Private Institute"
+                    ]
+                    saved_c_idx = st.session_state.get("campus_level_idx", 0)
+                    if saved_c_idx >= len(campus_options):
+                        saved_c_idx = 0
                     campus_level_str = st.selectbox(
                         "Tingkat / Level Institusi",
-                        options=["Level 1 — University", 
-                                 "Level 2 — College / Private Institute", 
-                                 "Level 3 — Vocational / Provider Lain"],
-                        index=st.session_state.get("campus_level_idx", 0),
-                        help="Kategori level risiko institusi pendidikan di Australia (Level 1: Universitas terakreditasi tinggi, Level 2: Kampus/Kolej swasta, Level 3: Provider vokasi/pelatihan)."
+                        options=campus_options,
+                        index=saved_c_idx,
+                        key="select_campus_level",
+                        help="Kategori level institusi pendidikan di Australia (Level 1: University, Level 2: Vocational/Polytechnic/TAFE, Level 3: College/Private Institute).",
+                        on_change=on_campus_level_change
                     )
-                    st.session_state["campus_level_idx"] = ["Level 1", "Level 2", "Level 3"].index(campus_level_str[:7]) if "Level" in campus_level_str else 0
-                    level_kampus = 1 if "Level 1" in campus_level_str else (2 if "Level 2" in campus_level_str else 3)
+                    if "Level 1" in campus_level_str:
+                        st.session_state["campus_level_idx"] = 0
+                        level_kampus = 1.0
+                    elif "Level 2" in campus_level_str:
+                        st.session_state["campus_level_idx"] = 1
+                        level_kampus = 2.0
+                    else:
+                        st.session_state["campus_level_idx"] = 2
+                        level_kampus = 3.0
                     st.session_state["level_kampus"] = level_kampus
 
                 with p2:
+                    _elicos_opts = ["Tidak", "Ya"]
+                    _elicos_idx = st.session_state.get("has_elicos_idx", 0)
                     has_elicos = st.selectbox(
                         "Mengambil Kursus Bahasa (ELICOS)?",
-                        options=["Tidak", "Ya"],
-                        index=st.session_state.get("has_elicos_idx", 0),
+                        options=_elicos_opts,
+                        index=_elicos_idx,
+                        key="select_has_elicos",
                         help="Pilih 'Ya' jika student mengambil kursus persiapan bahasa Inggris (ELICOS) sebelum memulai program studi utama."
                     )
                     st.session_state["has_elicos_idx"] = 1 if has_elicos == "Ya" else 0
@@ -2356,20 +2820,28 @@ if st.session_state.current_section in [1, 2, 3, 4]:
 
                 p3, p4 = st.columns(2)
                 with p3:
+                    _voc_opts = ["Tidak", "Ya"]
+                    _voc_idx = st.session_state.get("has_vocational_idx", 0)
                     has_vocational = st.selectbox(
                         "Mengambil Jalur Kejuruan (Vocational/VET)?",
-                        options=["Tidak", "Ya"],
-                        index=st.session_state.get("has_vocational_idx", 0),
+                        options=_voc_opts,
+                        index=_voc_idx,
+                        key="select_has_vocational",
                         help="Pilih 'Ya' jika student mengambil program kejuruan praktis seperti Certificate atau Diploma vokasi."
                     )
                     st.session_state["has_vocational_idx"] = 1 if has_vocational == "Ya" else 0
                     st.session_state["has_vocational"] = has_vocational
 
                 with p4:
+                    _higher_opts = ["Tidak", "Ya"]
+                    _higher_idx = st.session_state.get("has_higher_idx", 1)
+                    if _higher_idx >= len(_higher_opts):
+                        _higher_idx = 1
                     has_higher = st.selectbox(
                         "Mengambil Pendidikan Tinggi (Higher Education)?",
-                        options=["Tidak", "Ya"],
-                        index=st.session_state.get("has_higher_idx", 1),
+                        options=_higher_opts,
+                        index=_higher_idx,
+                        key="select_has_higher",
                         help="Pilih 'Ya' jika student mengambil program gelar seperti Bachelor (S1), Master (S2), atau Doctoral (S3)."
                     )
                     st.session_state["has_higher_idx"] = 1 if has_higher == "Ya" else 0
@@ -2386,41 +2858,6 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                     st.session_state.current_section = 4
                     st.rerun()
 
-        components.html("""
-        <script>
-        function applySection3SelectBorders() {
-            try {
-                const doc = window.parent.document;
-                const selQuery = [
-                    'div[data-testid="stSelectbox"] div.react-aria-Group',
-                    'div[data-testid="stSelectbox"] div[class*="e1oobldh0"]',
-                    'div[data-testid="stSelectbox"] div[role="group"]',
-                    'div[data-testid="stSelectbox"] div:has(> input)',
-                    'div[data-testid="stSelectbox"] > div:nth-child(2)'
-                ].join(', ');
-
-                doc.querySelectorAll(selQuery).forEach(wrap => {
-                    wrap.style.setProperty('background-color', '#FFFFFF', 'important');
-                    wrap.style.setProperty('background', '#FFFFFF', 'important');
-                    wrap.style.setProperty('border', '1.5px solid #CBD5E1', 'important');
-                    wrap.style.setProperty('border-color', '#CBD5E1', 'important');
-                    wrap.style.setProperty('border-width', '1.5px', 'important');
-                    wrap.style.setProperty('border-style', 'solid', 'important');
-                    wrap.style.setProperty('border-radius', '8px', 'important');
-                    wrap.style.setProperty('height', '42px', 'important');
-                    wrap.style.setProperty('min-height', '42px', 'important');
-                    wrap.style.setProperty('box-sizing', 'border-box', 'important');
-                });
-            } catch(e) {}
-        }
-        applySection3SelectBorders();
-        setTimeout(applySection3SelectBorders, 50);
-        setTimeout(applySection3SelectBorders, 150);
-        setTimeout(applySection3SelectBorders, 350);
-        setTimeout(applySection3SelectBorders, 700);
-        </script>
-        """, height=0, width=0)
-
     # ---------------------------------------------------------
     # SECTION 4: PROFIL LATAR BELAKANG & RIWAYAT VISA
     # ---------------------------------------------------------
@@ -2428,7 +2865,7 @@ if st.session_state.current_section in [1, 2, 3, 4]:
         st.markdown(
             '<div class="main-page-header">'
             '<div class="main-step-eyebrow">LANGKAH 04 / 04</div>'
-            '<div class="main-step-title">Profil Latar Belakang & Riwayat Visa</div>'
+            '<div class="main-step-title">Latar Belakang Pendidikan & Riwayat Visa</div>'
             '<div class="main-step-desc">Lengkapi informasi kemampuan bahasa Inggris, kesiapan finansial, dan riwayat pengajuan visa.</div>'
             '</div>',
             unsafe_allow_html=True
@@ -2455,9 +2892,9 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                         english_prof = None
                     st.session_state["english_prof"] = english_prof
 
-                    is_ielts_invalid = (raw_ielts_str and (english_prof is None or english_prof < 4.0 or english_prof > 9.0)) or (st.session_state.get("ielts_show_error", False) and (english_prof is None or english_prof < 4.0 or english_prof > 9.0))
+                    is_ielts_invalid = (raw_ielts_str and (english_prof is None or english_prof < 1.0 or english_prof > 9.0)) or (st.session_state.get("ielts_show_error", False) and (english_prof is None or english_prof < 1.0 or english_prof > 9.0))
                     if is_ielts_invalid:
-                        ielts_err_text = "Silahkan masukkan skor IELTS" if not raw_ielts_str else "Skor resmi IELTS harus berada pada rentang 4.0 hingga 9.0"
+                        ielts_err_text = "Silahkan masukkan skor IELTS" if not raw_ielts_str else "Skor resmi IELTS harus berada pada rentang 1.0 hingga 9.0"
                         st.markdown(
                             '<style>'
                             'div[class*="st-key-inner_card_sec4"] div[data-testid="stHorizontalBlock"]:first-child div[data-testid="column"]:first-child [data-baseweb="input"], '
@@ -2471,11 +2908,11 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                             f'<div class="field-error-sec4">{ielts_err_text}</div>',
                             unsafe_allow_html=True
                         )
-                    elif english_prof and 4.0 <= english_prof <= 9.0:
+                    elif english_prof and 1.0 <= english_prof <= 9.0:
                         st.session_state["ielts_show_error"] = False
 
                 with c2:
-                    st.text_input(
+                    fin_ret = st.text_input(
                         "Kesiapan Finansial / Tabungan (Rupiah)",
                         value=st.session_state.fin_input_str,
                         key="fin_raw_input",
@@ -2483,7 +2920,8 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                         help="Estimasi dana tabungan atau bukti kesiapan finansial yang dimiliki untuk mendukung biaya studi dan hidup di Australia (dalam Rupiah).",
                         on_change=on_financial_change
                     )
-                    digits_only = "".join([c for c in str(st.session_state.fin_input_str) if c.isdigit()])
+                    fin_src = fin_ret if fin_ret is not None else st.session_state.get("fin_raw_input", st.session_state.get("fin_input_str", ""))
+                    digits_only = "".join([c for c in str(fin_src) if c.isdigit()])
                     financial_nominal = float(digits_only) if digits_only else None
                     st.session_state["financial_nominal"] = financial_nominal
 
@@ -2510,30 +2948,39 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                 st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
                 r1, r2, r3 = st.columns(3)
                 with r1:
+                    _rm_opts = ["Sesuai / Linier", "Tidak / Lintas Jurusan"]
+                    _rm_idx = st.session_state.get("related_major_idx", 0)
                     related_major = st.selectbox(
                         "Kesesuaian Jurusan",
-                        options=["Sesuai / Linier", "Tidak / Lintas Jurusan"],
-                        index=st.session_state.get("related_major_idx", 0),
+                        options=_rm_opts,
+                        index=_rm_idx,
+                        key="select_related_major",
                         help="Kesesuaian program studi yang dituju di Australia dengan latar belakang pendidikan atau riwayat kerja sebelumnya."
                     )
                     st.session_state["related_major_idx"] = 0 if "Sesuai" in related_major else 1
                     st.session_state["related_major"] = related_major
 
                 with r2:
+                    _ec_opts = ["Iya", "Tidak"]
+                    _ec_idx = st.session_state.get("emp_continuity_idx", 0)
                     emp_continuity = st.selectbox(
-                        "Aktivitas Kerja Selama Gap",
-                        options=["Iya", "Tidak"],
-                        index=st.session_state.get("emp_continuity_idx", 0),
+                        "Aktivitas Selama Gap",
+                        options=_ec_opts,
+                        index=_ec_idx,
+                        key="select_emp_continuity",
                         help="Apakah student memiliki aktivitas kerja, magang, atau pengalaman profesional yang jelas selama jeda studi (gap)."
                     )
                     st.session_state["emp_continuity_idx"] = 0 if emp_continuity == "Iya" else 1
                     st.session_state["emp_continuity"] = emp_continuity
 
                 with r3:
+                    _hr_opts = ["Tidak", "Pernah"]
+                    _hr_idx = st.session_state.get("has_refusal_idx", 0)
                     has_refusal = st.selectbox(
                         "Riwayat Penolakan Visa",
-                        options=["Tidak", "Pernah"],
-                        index=st.session_state.get("has_refusal_idx", 0),
+                        options=_hr_opts,
+                        index=_hr_idx,
+                        key="select_has_refusal",
                         help="Apakah student pernah memiliki riwayat penolakan visa Australia atau visa negara lain sebelumnya."
                     )
                     st.session_state["has_refusal_idx"] = 0 if has_refusal == "Tidak" else 1
@@ -2553,7 +3000,7 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                     fin_val = st.session_state.get("financial_nominal")
 
                     has_err = False
-                    if eng_val is None or eng_val < 4.0 or eng_val > 9.0:
+                    if eng_val is None or eng_val < 1.0 or eng_val > 9.0:
                         st.session_state["ielts_show_error"] = True
                         has_err = True
                     else:
@@ -2575,107 +3022,83 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                         st.session_state.current_section = 5
                         st.rerun()
 
-        ielts_err_val = "true" if is_ielts_invalid else "false"
-        fin_err_val = "true" if is_fin_invalid else "false"
-
-        components.html(f"""
-        <script>
-        function applySection4InputBorders() {{
-            try {{
-                const doc = window.parent.document;
-                const hasIeltsErr = {ielts_err_val};
-                const hasFinErr = {fin_err_val};
-                const selQuery = [
-                    '[data-testid="stTextInputRootElement"]',
-                    'div[data-testid="stTextInput"] [data-testid="stTextInputRootElement"]',
-                    'div[data-testid="stTextInput"] div.react-aria-Group',
-                    'div[data-testid="stTextInput"] div[class*="e1bh1cux2"]',
-                    'div[data-testid="stTextInput"] div:has(> input)',
-                    'div[data-testid="stSelectbox"] div.react-aria-Group',
-                    'div[data-testid="stSelectbox"] div[class*="e1oobldh0"]',
-                    'div[data-testid="stSelectbox"] div[role="group"]',
-                    'div[data-testid="stSelectbox"] div:has(> input)',
-                    'div[data-testid="stSelectbox"] > div:nth-child(2)'
-                ].join(', ');
-
-                doc.querySelectorAll(selQuery).forEach(wrap => {{
-                    wrap.style.setProperty('background-color', '#FFFFFF', 'important');
-                    wrap.style.setProperty('background', '#FFFFFF', 'important');
-                    wrap.style.setProperty('border', '1.5px solid #CBD5E1', 'important');
-                    wrap.style.setProperty('border-color', '#CBD5E1', 'important');
-                    wrap.style.setProperty('border-width', '1.5px', 'important');
-                    wrap.style.setProperty('border-style', 'solid', 'important');
-                    wrap.style.setProperty('border-radius', '8px', 'important');
-                    wrap.style.setProperty('height', '42px', 'important');
-                    wrap.style.setProperty('min-height', '42px', 'important');
-                    wrap.style.setProperty('box-sizing', 'border-box', 'important');
-                }});
-
-                doc.querySelectorAll('div[data-testid="stTextInput"] input, div[data-testid="stSelectbox"] input').forEach(inp => {{
-                    inp.style.setProperty('background-color', 'transparent', 'important');
-                    inp.style.setProperty('background', 'transparent', 'important');
-                    inp.style.setProperty('color', '#17324D', 'important');
-                    inp.style.setProperty('font-size', '13px', 'important');
-                }});
-
-                if (hasIeltsErr) {{
-                    const cols = doc.querySelectorAll('div[class*="st-key-inner_card_sec4"] div[data-testid="stHorizontalBlock"]:first-child div[data-testid="column"]');
-                    if (cols.length >= 2) {{
-                        cols[0].querySelectorAll('[data-testid="stTextInputRootElement"], div.react-aria-Group, [data-baseweb="input"], div:has(> input)').forEach(wrap => {{
-                            wrap.style.setProperty('border', '1.5px solid #EF4444', 'important');
-                            wrap.style.setProperty('border-color', '#EF4444', 'important');
-                            wrap.style.setProperty('box-shadow', '0 0 0 1px rgba(239, 68, 68, 0.2)', 'important');
-                        }});
-                    }}
-                }}
-
-                if (hasFinErr) {{
-                    const cols = doc.querySelectorAll('div[class*="st-key-inner_card_sec4"] div[data-testid="stHorizontalBlock"]:first-child div[data-testid="column"]');
-                    if (cols.length >= 2) {{
-                        cols[1].querySelectorAll('[data-testid="stTextInputRootElement"], div.react-aria-Group, [data-baseweb="input"], div:has(> input)').forEach(wrap => {{
-                            wrap.style.setProperty('border', '1.5px solid #EF4444', 'important');
-                            wrap.style.setProperty('border-color', '#EF4444', 'important');
-                            wrap.style.setProperty('box-shadow', '0 0 0 1px rgba(239, 68, 68, 0.2)', 'important');
-                        }});
-                    }}
-                }}
-
-                // Sejajarkan tinggi label 3 selectbox di row 2
-                const sec4Labels = doc.querySelectorAll('div[class*="st-key-inner_card_sec4"] div[data-testid="stSelectbox"] [data-testid="stWidgetLabel"], div[class*="st-key-inner_card_sec4"] div[data-testid="stSelectbox"] label');
-                sec4Labels.forEach(lbl => {{
-                    lbl.style.setProperty('min-height', '22px', 'important');
-                    lbl.style.setProperty('height', 'auto', 'important');
-                    lbl.style.setProperty('display', 'flex', 'important');
-                    lbl.style.setProperty('align-items', 'center', 'important');
-                    lbl.style.setProperty('justify-content', 'space-between', 'important');
-                }});
-            }} catch(e) {{}}
-        }}
-        applySection4InputBorders();
-        setTimeout(applySection4InputBorders, 50);
-        setTimeout(applySection4InputBorders, 150);
-        setTimeout(applySection4InputBorders, 350);
-        setTimeout(applySection4InputBorders, 700);
-        </script>
-        """, height=0, width=0)
-
 # =============================================================
 # SECTION 5: HASIL PREDIKSI & EVALUASI PROFIL
 # =============================================================
 elif st.session_state.current_section == 5:
-    financial_nominal = st.session_state.get("financial_nominal", 500000000.0)
-    age_val = st.session_state.get("age_val", 24.0)
-    gap_year = st.session_state.get("gap_year", 1.0)
-    last_edu_year = st.session_state.get("last_edu_year", 2022.0)
-    app_year = st.session_state.get("app_year", current_year)
-    level_kampus = st.session_state.get("level_kampus", 1.0)
-    english_prof = st.session_state.get("english_prof", 6.0)
-    related_major = st.session_state.get("related_major", "Sesuai / Linier")
-    emp_continuity = st.session_state.get("emp_continuity", "Iya")
-    has_refusal = st.session_state.get("has_refusal", "Tidak")
-    has_elicos = st.session_state.get("has_elicos", "Tidak")
-    has_vocational = st.session_state.get("has_vocational", "Tidak")
-    has_higher = st.session_state.get("has_higher", "Ya")
+    # 1. Pastikan usia & tahun pengajuan dihitung dari tanggal lahir & apply terkini
+    birth_date = st.session_state.get("birth_date")
+    apply_date = st.session_state.get("apply_date")
+    if birth_date and apply_date and apply_date >= birth_date:
+        calculated_age = apply_date.year - birth_date.year - ((apply_date.month, apply_date.day) < (birth_date.month, birth_date.day))
+        age_val = max(15, min(65, calculated_age))
+        app_year = apply_date.year
+        st.session_state["age_val"] = age_val
+        st.session_state["app_year"] = app_year
+    else:
+        age_val = float(st.session_state.get("age_val", 24.0))
+        app_year = float(st.session_state.get("app_year", current_year))
+
+    # 2. Pastikan jeda studi (gap) dihitung dari tahun kelulusan & mode terkini
+    last_edu_year = st.session_state.get("last_edu_year")
+    gap_mode = st.session_state.get("gap_mode", "Mengetahui Bulan dan Tahun")
+    bulan_lulus_idx = st.session_state.get("bulan_lulus_idx")
+    if last_edu_year is not None:
+        if gap_mode == "Mengetahui Bulan dan Tahun" and bulan_lulus_idx is not None and apply_date:
+            total_months = (int(app_year) - int(last_edu_year)) * 12 + (apply_date.month - (int(bulan_lulus_idx) + 1))
+            gap_year = round(max(0, total_months) / 12.0, 1)
+        else:
+            gap_year = float(max(0, int(app_year) - int(last_edu_year)))
+        st.session_state["gap_year"] = gap_year
+    else:
+        gap_year = float(st.session_state.get("gap_year", 1.0))
+        last_edu_year = 2022.0
+
+    # 3. Ambil seluruh input profil terkini dengan resolusi ganda (widget key & session state)
+    campus_sel = str(st.session_state.get("select_campus_level", ""))
+    if "Level 1" in campus_sel:
+        level_kampus = 1.0
+        st.session_state["campus_level_idx"] = 0
+    elif "Level 2" in campus_sel:
+        level_kampus = 2.0
+        st.session_state["campus_level_idx"] = 1
+    elif "Level 3" in campus_sel:
+        level_kampus = 3.0
+        st.session_state["campus_level_idx"] = 2
+    else:
+        c_idx = st.session_state.get("campus_level_idx")
+        if c_idx is not None:
+            level_kampus = float(int(c_idx) + 1)
+        else:
+            level_kampus = float(st.session_state.get("level_kampus", 1.0) or 1.0)
+    st.session_state["level_kampus"] = level_kampus
+
+    elicos_sel = str(st.session_state.get("select_has_elicos", ""))
+    has_elicos = elicos_sel if elicos_sel in ["Ya", "Tidak"] else str(st.session_state.get("has_elicos", "Tidak"))
+    st.session_state["has_elicos"] = has_elicos
+
+    voc_sel = str(st.session_state.get("select_has_vocational", ""))
+    has_vocational = voc_sel if voc_sel in ["Ya", "Tidak"] else str(st.session_state.get("has_vocational", "Tidak"))
+    st.session_state["has_vocational"] = has_vocational
+
+    higher_sel = str(st.session_state.get("select_has_higher", ""))
+    has_higher = higher_sel if higher_sel in ["Ya", "Tidak"] else str(st.session_state.get("has_higher", "Ya"))
+    st.session_state["has_higher"] = has_higher
+
+    rm_sel = str(st.session_state.get("select_related_major", ""))
+    related_major = rm_sel if ("Sesuai" in rm_sel or "Tidak" in rm_sel) else str(st.session_state.get("related_major", "Sesuai / Linier"))
+    st.session_state["related_major"] = related_major
+
+    ec_sel = str(st.session_state.get("select_emp_continuity", ""))
+    emp_continuity = ec_sel if ec_sel in ["Iya", "Tidak"] else str(st.session_state.get("emp_continuity", "Iya"))
+    st.session_state["emp_continuity"] = emp_continuity
+
+    hr_sel = str(st.session_state.get("select_has_refusal", ""))
+    has_refusal = hr_sel if hr_sel in ["Pernah", "Tidak"] else str(st.session_state.get("has_refusal", "Tidak"))
+    st.session_state["has_refusal"] = has_refusal
+
+    financial_nominal = float(st.session_state.get("financial_nominal", 500000000.0) or 500000000.0)
+    english_prof = float(st.session_state.get("english_prof", 6.0) or 6.0)
 
     input_payload = {
         'Financial': float(financial_nominal),
@@ -2684,6 +3107,7 @@ elif st.session_state.current_section == 5:
         'Last_Education_Year': float(last_edu_year),
         'Application_Year': float(app_year),
         'Level_Kampus': float(level_kampus),
+        'English_Proficiency': float(english_prof),
         'English_Proficiency_Cleaned': float(english_prof),
         'Related_Major': 1 if "Sesuai" in related_major else 0,
         'Has_Refusal': 1 if "Pernah" in has_refusal else 0,
@@ -2705,6 +3129,12 @@ elif st.session_state.current_section == 5:
         p_refusal = 99.0
         p_grant = 1.0
 
+    # Auto-sinkronisasi tab aktif sesuai dengan hasil prediksi dominan terbaru
+    current_winner = "grant" if p_grant >= p_refusal else "refusal"
+    if "last_pred_winner" not in st.session_state or st.session_state["last_pred_winner"] != current_winner:
+        st.session_state["last_pred_winner"] = current_winner
+        st.session_state.active_result_view = current_winner
+
     # Analisis SHAP
     shap_out = explainer(input_df)
     if len(shap_out.values.shape) == 3:
@@ -2719,12 +3149,13 @@ elif st.session_state.current_section == 5:
 
     friendly_names = {
         'Financial': 'Kondisi finansial',
-        'Employment_Continuity': 'Kesinambungan aktivitas selama gap',
+        'Employment_Continuity': 'Aktivitas selama masa jeda studi',
         'Age': 'Usia',
-        'Related_Major': 'Kesesuaian latar belakang dengan jurusan',
+        'Related_Major': 'Kesesuaian latar belakang pendidikan dengan jurusan',
         'Level_Kampus': 'Pilihan level institusi',
         'Has_Refusal': 'Riwayat penolakan visa',
-        'Gap_Year': 'Durasi gap pendidikan',
+        'Gap_Year': 'Durasi jeda studi (gap)',
+        'English_Proficiency': 'Kemahiran bahasa Inggris',
         'English_Proficiency_Cleaned': 'Kemahiran bahasa Inggris',
         'Has_Higher': 'Jalur Higher Education',
         'Has_Vocational': 'Jalur Vocational',
@@ -2740,15 +3171,26 @@ elif st.session_state.current_section == 5:
         'Persen': shap_percentages
     })
 
+    # Penjelasan dinamis yang menyesuaikan dengan profil yang dipilih
+    if level_kampus == 1.0:
+        campus_grant_reason = "Pilihan institusi Level 1 (University) memiliki reputasi prima dan profil risiko imigrasi yang sangat rendah, sehingga sangat memperkuat peluang persetujuan visa."
+        campus_refusal_reason = "Meskipun memilih institusi Level 1 (University), pastikan seluruh dokumen pendukung dan Genuine Student Statement disusun secara meyakinkan."
+    elif level_kampus == 2.0:
+        campus_grant_reason = "Pilihan institusi Level 2 (Vocational / TAFE) memiliki jalur kejuruan terstruktur dengan rekam jejak kepatuhan visa yang baik."
+        campus_refusal_reason = "Pilihan institusi Level 2 (Vocational / TAFE) memerlukan justifikasi rencana studi yang konkret agar selaras dengan riwayat pendidikan dan tujuan karier."
+    else:
+        campus_grant_reason = "Pilihan institusi Level 3 (College) tetap dapat disetujui selama didukung bukti pembiayaan dan kualifikasi akademik yang lengkap."
+        campus_refusal_reason = "Pilihan kampus Level 3 (College / Private Institute) memiliki risiko pengawasan imigrasi yang lebih ketat, sehingga memerlukan pemenuhan dokumen finansial dan bukti Genuine Student yang sangat kuat."
+
     reason_explanations_grant = {
         'Kondisi finansial': f"Kondisi finansial dinilai memadai (Rp {financial_nominal:,.0f}) untuk menopang biaya pendidikan dan kebutuhan hidup selama studi di Australia.",
-        'Kesinambungan aktivitas selama gap': "Kesinambungan aktivitas selama masa jeda terisi dengan baik melalui pekerjaan atau kegiatan produktif yang relevan.",
-        'Usia': "Usia student berada dalam rentang yang wajar dan didukung profil studi yang konsisten.",
-        'Kesesuaian latar belakang dengan jurusan': "Latar belakang pendidikan atau pengalaman kerja sebelumnya selaras dan konsisten dengan program studi yang dituju di Australia.",
-        'Pilihan level institusi': "Pilihan level institusi yang dituju memiliki profil risiko yang baik dan mendukung kelancaran aplikasi.",
+        'Aktivitas selama masa jeda studi': "Kesinambungan aktivitas selama masa jeda terisi dengan baik melalui pekerjaan atau kegiatan produktif yang relevan.",
+        'Usia': f"Usia student ({age_val:.0f} tahun) berada dalam rentang yang wajar dan didukung profil studi yang konsisten.",
+        'Kesesuaian latar belakang pendidikan dengan jurusan': "Latar belakang pendidikan atau pengalaman kerja sebelumnya selaras dan konsisten dengan program studi yang dituju di Australia.",
+        'Pilihan level institusi': campus_grant_reason,
         'Riwayat penolakan visa': "Student tidak memiliki catatan penolakan visa sebelumnya, yang memberikan nilai positif terhadap profil pengajuan.",
-        'Kemahiran bahasa Inggris': f"Kemampuan bahasa Inggris (IELTS {english_prof}) memenuhi standar persyaratan minimum studi yang dituju.",
-        'Durasi gap pendidikan': "Durasi gap pendidikan tergolong moderat dan dapat dipertanggungjawabkan dengan baik.",
+        'Kemahiran bahasa Inggris': f"Kemampuan bahasa Inggris (IELTS {english_prof:.1f}) memenuhi standar persyaratan minimum studi yang dituju.",
+        'Durasi jeda studi (gap)': f"Durasi jeda studi ({gap_year:.1f} tahun) tergolong moderat dan dapat dipertanggungjawabkan dengan baik.",
         'Jalur ELICOS': "Program persiapan bahasa (ELICOS) mendukung kesiapan akademik sebelum menempuh program utama.",
         'Jalur Vocational': "Program kejuruan yang dipilih relevan dengan jalur pengembangan karier terapan.",
         'Jalur Higher Education': "Jalur Higher Education (S1/S2) memberikan nilai akademis yang kuat dan meyakinkan bagi imigrasi.",
@@ -2757,14 +3199,14 @@ elif st.session_state.current_section == 5:
     }
 
     reason_explanations_refusal = {
-        'Kondisi finansial': "Kondisi finansial masih perlu diperkuat dengan memastikan dana yang tersedia memadai untuk biaya hidup dan tuition fee (patokan minimum acuan ~Rp450 juta) serta didukung bukti sumber dana yang jelas.",
-        'Kesinambungan aktivitas selama gap': "Apabila terdapat masa jeda (gap), pengalaman kerja, usaha, atau aktivitas produktif perlu didokumentasikan dengan bukti tertulis agar tidak menjadi celah kecurigaan imigrasi.",
-        'Usia': "Usia student perlu diselaraskan dengan alasan kuat melanjutkan studi, riwayat pendidikan, dan prospek karier saat kembali ke negara asal.",
-        'Kesesuaian latar belakang dengan jurusan': "Kesesuaian jurusan perlu diperkuat dengan penjelasan tertulis (Genuine Student Statement) mengenai alasan berpindah bidang studi.",
-        'Pilihan level institusi': "Pilihan kampus level 3 atau institusi berisiko memerlukan pemenuhan dokumen finansial dan bukti akademis yang lebih ketat.",
+        'Kondisi finansial': f"Kondisi finansial (Rp {financial_nominal:,.0f}) masih perlu diperkuat dengan memastikan dana yang tersedia memadai untuk biaya hidup dan tuition fee (patokan minimum acuan ~Rp450 juta) serta didukung bukti sumber dana yang jelas.",
+        'Aktivitas selama masa jeda studi': "Apabila terdapat masa jeda (gap), pengalaman kerja, usaha, atau aktivitas produktif perlu didokumentasikan dengan bukti tertulis agar tidak menjadi celah kecurigaan imigrasi.",
+        'Usia': f"Usia student ({age_val:.0f} tahun) perlu diselaraskan dengan alasan kuat melanjutkan studi, riwayat pendidikan, dan prospek karier saat kembali ke negara asal.",
+        'Kesesuaian latar belakang pendidikan dengan jurusan': "Kesesuaian jurusan perlu diperkuat dengan penjelasan tertulis (Genuine Student Statement) mengenai alasan berpindah bidang studi.",
+        'Pilihan level institusi': campus_refusal_reason,
         'Riwayat penolakan visa': "Adanya riwayat penolakan visa sebelumnya merupakan faktor risiko signifikan. Wajib melampirkan penjelasan perbaikan profil yang substansial.",
-        'Kemahiran bahasa Inggris': "Kemampuan bahasa Inggris masih perlu ditingkatkan atau dilengkapi dengan paket kursus ELICOS sebelum memulai perkuliahan utama.",
-        'Durasi gap pendidikan': "Gap pendidikan yang panjang tanpa dokumentasi aktivitas yang jelas berpotensi menurunkan tingkat keyakinan petugas visa terhadap kriteria Genuine Student.",
+        'Kemahiran bahasa Inggris': f"Kemampuan bahasa Inggris (IELTS {english_prof:.1f}) masih perlu ditingkatkan atau dilengkapi dengan paket kursus ELICOS sebelum memulai perkuliahan utama.",
+        'Durasi jeda studi (gap)': f"Jeda studi ({gap_year:.1f} tahun) yang cukup panjang tanpa dokumentasi aktivitas yang jelas berpotensi menurunkan tingkat keyakinan petugas visa terhadap kriteria Genuine Student.",
         'Jalur ELICOS': "Perlu memastikan durasi ELICOS proporsional dan tidak terkesan hanya memperpanjang masa tinggal di Australia.",
         'Jalur Vocational': "Pilihan diploma/vokasi untuk pelamar dengan latar belakang yang sudah tinggi rentan dinilai non-genuine student.",
         'Jalur Higher Education': "Perlu memastikan rencana pembiayaan program Higher Education terjamin hingga masa akhir studi.",
@@ -2793,8 +3235,11 @@ elif st.session_state.current_section == 5:
     card_col1, card_col2 = st.columns(2)
     active_tab = st.session_state.active_result_view
 
+    grant_fmt = f"{p_grant:.1f}%" if (p_grant % 1 != 0) else f"{p_grant:.0f}%"
+    refusal_fmt = f"{p_refusal:.1f}%" if (p_refusal % 1 != 0) else f"{p_refusal:.0f}%"
+
     with card_col1:
-        grant_btn_content = f"{p_grant:.0f}%\nPeluang Disetujui (Grant)"
+        grant_btn_content = f"{grant_fmt}\nDISETUJUI (GRANT)"
         if st.button(
             grant_btn_content,
             key="direct_card_grant",
@@ -2804,7 +3249,7 @@ elif st.session_state.current_section == 5:
             st.rerun()
 
     with card_col2:
-        refusal_btn_content = f"{p_refusal:.0f}%\nTingkat Risiko (Refusal)"
+        refusal_btn_content = f"{refusal_fmt}\nDITOLAK (REFUSAL)"
         if st.button(
             refusal_btn_content,
             key="direct_card_refusal",
@@ -2829,7 +3274,11 @@ elif st.session_state.current_section == 5:
             unsafe_allow_html=True
         )
 
-        shap_positives = df_shap_all[df_shap_all['Raw_SHAP'] > 0.001].sort_values(by='Raw_SHAP', ascending=False)
+        # Exclude 'Pilihan level institusi' dari loop SHAP — ditampilkan secara eksplisit berdasarkan level
+        shap_positives = df_shap_all[
+            (df_shap_all['Raw_SHAP'] > 0.001) &
+            (df_shap_all['Faktor'] != 'Pilihan level institusi')
+        ].sort_values(by='Raw_SHAP', ascending=False)
         shown_count = 0
         for _, row in shap_positives.iterrows():
             faktor = row['Faktor']
@@ -2838,6 +3287,17 @@ elif st.session_state.current_section == 5:
             expl = reason_explanations_grant.get(faktor, "Faktor ini memberikan pengaruh positif terhadap profil pengajuan.")
             st.markdown(
                 f'<div class="recom-item-clean grant-item"><span class="recom-title-clean">{faktor} (+{pct:.0f}%):</span> {expl}</div>',
+                unsafe_allow_html=True
+            )
+
+        # Tampilkan card Pilihan level institusi berdasarkan level kampus yang dipilih (bukan dari arah SHAP)
+        # Level 1 & 2 = mendukung grant → tampil di Grant tab
+        # Level 3 = risiko lebih tinggi → tampil di Refusal tab
+        campus_level_row = df_shap_all[df_shap_all['Faktor'] == 'Pilihan level institusi']
+        campus_pct_val = abs(campus_level_row['Persen'].values[0]) if len(campus_level_row) > 0 else 0
+        if level_kampus in (1.0, 2.0):
+            st.markdown(
+                f'<div class="recom-item-clean grant-item"><span class="recom-title-clean">Pilihan level institusi (+{campus_pct_val:.0f}%):</span> {campus_grant_reason}</div>',
                 unsafe_allow_html=True
             )
 
@@ -2868,7 +3328,11 @@ elif st.session_state.current_section == 5:
             unsafe_allow_html=True
         )
 
-        shap_negatives = df_shap_all[df_shap_all['Raw_SHAP'] < -0.001].sort_values(by='Raw_SHAP', ascending=True)
+        # Exclude 'Pilihan level institusi' dari loop SHAP — ditampilkan secara eksplisit berdasarkan level
+        shap_negatives = df_shap_all[
+            (df_shap_all['Raw_SHAP'] < -0.001) &
+            (df_shap_all['Faktor'] != 'Pilihan level institusi')
+        ].sort_values(by='Raw_SHAP', ascending=True)
         shown_risk_count = 0
         for _, row in shap_negatives.iterrows():
             faktor = row['Faktor']
@@ -2877,6 +3341,17 @@ elif st.session_state.current_section == 5:
             expl = reason_explanations_refusal.get(faktor, "Faktor ini berkontribusi terhadap potensi risiko penolakan visa.")
             st.markdown(
                 f'<div class="recom-item-clean refusal-item"><span class="recom-title-clean">{faktor} ({pct:.0f}%):</span> {expl}</div>',
+                unsafe_allow_html=True
+            )
+
+        # Tampilkan card Pilihan level institusi berdasarkan level kampus yang dipilih (bukan dari arah SHAP)
+        # Level 3 = risiko lebih tinggi → tampil di Refusal tab
+        # Level 1 & 2 sudah ditampilkan di Grant tab
+        campus_level_row_r = df_shap_all[df_shap_all['Faktor'] == 'Pilihan level institusi']
+        campus_pct_val_r = abs(campus_level_row_r['Persen'].values[0]) if len(campus_level_row_r) > 0 else 0
+        if level_kampus == 3.0:
+            st.markdown(
+                f'<div class="recom-item-clean refusal-item"><span class="recom-title-clean">Pilihan level institusi (-{campus_pct_val_r:.0f}%):</span> {campus_refusal_reason}</div>',
                 unsafe_allow_html=True
             )
 
@@ -2901,10 +3376,35 @@ elif st.session_state.current_section == 5:
         if shown_risk_count == 0 and input_payload['Financial'] >= 450000000 and input_payload['Has_Refusal'] == 0:
             st.success("Tidak terdeteksi faktor risiko penolakan yang signifikan pada profil pengajuan ini.")
 
+
+    # ==============================================================================
+    # DIREKTORI KAMPUS MITRA OSS BALI (COLORED BORDER - BLUE ACCENT)
+    # ==============================================================================
+    oss_college_url = "https://onestepsolutionbali.com/user/college"
+    
+    with st.container(border=True, key="card_oss_directory"):
+        col_dir_txt, col_dir_btn = st.columns([3.3, 1.7])
+        with col_dir_txt:
+            st.markdown(
+                '<div style="padding: 6px 0 4px 0;">'
+                '<div style="font-size: 14px; font-weight: 700; color: #0284C7; margin-bottom: 6px; display: flex; align-items: center; gap: 7px; line-height: 1.4;">'
+                'Direktori Kampus Mitra OSS Bali'
+                '</div>'
+                '<div style="font-size: 12.5px; color: #334155; line-height: 1.55; margin: 0; padding-bottom: 4px;">'
+                'Untuk mengeksplorasi alternatif institusi pendidikan atau mencari program studi lain yang sesuai dengan minat calon mahasiswa, Anda dapat meninjau katalog mitra resmi One Step Solution Bali.'
+                '</div>'
+                '</div>',
+                unsafe_allow_html=True
+            )
+        with col_dir_btn:
+            st.markdown('<div style="height: 12px;"></div>', unsafe_allow_html=True)
+            st.link_button("Buka Direktori Kampus ↗", url=oss_college_url, use_container_width=True)
+
     st.markdown("<div style='margin-top: 32px;'></div>", unsafe_allow_html=True)
     c_rst1, c_rst2 = st.columns(2)
     with c_rst1:
         if st.button("✎  Edit Data Pengajuan", key="btn_edit_submission", use_container_width=True):
+            st.session_state.max_unlocked_step = 5
             st.session_state.current_section = 1
             st.rerun()
     with c_rst2:
