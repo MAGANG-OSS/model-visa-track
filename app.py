@@ -1203,22 +1203,6 @@ st.markdown("""
         padding-bottom: 0px !important;
     }
 
-    /* Error Border Section 2 */
-    div[data-testid="column"]:has(.field-error-sec2) [data-testid="stTextInputRootElement"],
-    div[data-testid="column"]:has(.field-error-sec2) div.react-aria-Group,
-    div[data-testid="column"]:has(.field-error-sec2) [data-baseweb="input"],
-    div[data-testid="column"]:has(.field-error-sec2) [data-baseweb="select"] > div,
-    div[class*="st-key-inner_card_sec2"] div:has(> .field-error-sec2) [data-testid="stTextInputRootElement"],
-    div[class*="st-key-inner_card_sec2"] div:has(> .field-error-sec2) [data-baseweb="input"],
-    div[class*="st-key-inner_card_sec2"] div:has(> .field-error-sec2) [data-baseweb="select"] > div,
-    div[class*="st-key-inner_card_sec2"] div:has(> div .field-error-sec2) [data-testid="stTextInputRootElement"],
-    div[class*="st-key-inner_card_sec2"] div:has(> div .field-error-sec2) [data-baseweb="input"],
-    div[class*="st-key-inner_card_sec2"] div:has(> div .field-error-sec2) [data-baseweb="select"] > div {
-        border: 1.5px solid #EF4444 !important;
-        border-color: #EF4444 !important;
-        box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.2) !important;
-    }
-
     /* Penyesuaian Pesan Error & Sejajarkan Input Section 4 */
     div[class*="st-key-inner_card_sec4"] div[data-testid="column"] > div[data-testid="stVerticalBlock"],
     div[class*="st-key-inner_card_sec4"] div[data-testid="stColumn"] > div[data-testid="stVerticalBlock"],
@@ -1253,17 +1237,31 @@ st.markdown("""
         font-family: 'Poppins', sans-serif !important;
     }
 
-    /* Error Border Section 4 */
-    div[data-testid="column"]:has(.field-error-sec4) [data-testid="stTextInputRootElement"],
-    div[data-testid="column"]:has(.field-error-sec4) div.react-aria-Group,
-    div[data-testid="column"]:has(.field-error-sec4) [data-baseweb="input"],
-    div[class*="st-key-inner_card_sec4"] div:has(> .field-error-sec4) [data-testid="stTextInputRootElement"],
-    div[class*="st-key-inner_card_sec4"] div:has(> .field-error-sec4) [data-baseweb="input"],
-    div[class*="st-key-inner_card_sec4"] div:has(> div .field-error-sec4) [data-testid="stTextInputRootElement"],
-    div[class*="st-key-inner_card_sec4"] div:has(> div .field-error-sec4) [data-baseweb="input"] {
-        border: 1.5px solid #EF4444 !important;
-        border-color: #EF4444 !important;
-        box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.2) !important;
+    /* Sembunyikan 'Press Enter to apply' bawaan Streamlit agar form bersih */
+    div[data-testid="InputInstructions"],
+    div[data-testid="stInputInstructions"],
+    div[class*="stInputInstructions"] {
+        display: none !important;
+    }
+
+    /* Tombol Clear (x) Biru pada Text Input Section 2 & 4 */
+    .st-custom-clear-btn {
+        position: absolute !important;
+        right: 11px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        cursor: pointer !important;
+        z-index: 10 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 20px !important;
+        height: 20px !important;
+        transition: opacity 0.15s ease !important;
+        user-select: none !important;
+    }
+    .st-custom-clear-btn:hover {
+        opacity: 0.8 !important;
     }
 
     /* Penyelarasan Tinggi Label 3 Selectbox Row 2 Section 4 */
@@ -2222,13 +2220,17 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                 d1, d2 = st.columns(2)
                 with d1:
                     saved_birth = st.session_state.get("birth_date", None)
+                    if "input_birth_date" not in st.session_state and saved_birth is not None:
+                        st.session_state["input_birth_date"] = saved_birth
+
                     birth_date = st.date_input(
                         "Tanggal Lahir Student :red[*]",
-                        value=saved_birth,
+                        value=None,
                         min_value=date(1960, 1, 1),
                         max_value=date(current_year - 14, 12, 31),
                         format="DD/MM/YYYY",
                         key="input_birth_date",
+                        persist_state="session",
                         help="Pilih tanggal lahir student sesuai identitas paspor."
                     )
                     st.session_state["birth_date"] = birth_date
@@ -2254,13 +2256,17 @@ if st.session_state.current_section in [1, 2, 3, 4]:
 
                 with d2:
                     saved_apply = st.session_state.get("apply_date", None)
+                    if "input_apply_date" not in st.session_state and saved_apply is not None:
+                        st.session_state["input_apply_date"] = saved_apply
+
                     apply_date = st.date_input(
                         "Waktu Pengajuan Visa :red[*]",
-                        value=saved_apply,
+                        value=None,
                         min_value=date(2015, 1, 1),
                         max_value=date(current_year + 2, 12, 31),
                         format="DD/MM/YYYY",
                         key="input_apply_date",
+                        persist_state="session",
                         help="Pilih tanggal pengajuan aplikasi visa student."
                     )
                     st.session_state["apply_date"] = apply_date
@@ -2369,12 +2375,15 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                         st.session_state["sec1_apply_err"] = False
                         st.session_state["sec1_apply_err_msg"] = None
 
+                    if eff_birth is not None:
+                        st.session_state["birth_date"] = eff_birth
+                    if eff_apply is not None:
+                        st.session_state["apply_date"] = eff_apply
+
                     if has_err:
                         st.session_state["sec1_error"] = None
                         st.rerun()
                     else:
-                        st.session_state["birth_date"] = eff_birth
-                        st.session_state["apply_date"] = eff_apply
                         st.session_state["sec1_error"] = None
                         st.session_state["sec1_birth_err"] = False
                         st.session_state["sec1_apply_err"] = False
@@ -2437,12 +2446,18 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                     horizontal=True,
                     label_visibility="visible"
                 )
-                st.session_state["gap_mode"] = gap_mode
+                if gap_mode != saved_gap_mode:
+                    st.session_state["gap_mode"] = gap_mode
+                    st.session_state["sec2_year_err"] = False
+                    st.session_state["sec2_month_err"] = False
 
                 app_year = st.session_state.get("app_year", current_year)
                 apply_date = st.session_state.get("apply_date", today)
                 bulan_list = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
                               "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
+
+                if "input_last_edu_year" not in st.session_state:
+                    st.session_state["input_last_edu_year"] = str(st.session_state.get("last_edu_year") or "")
 
                 last_edu_year = None
                 clean_edu_digits = ""
@@ -2458,9 +2473,8 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                     with g1:
                         raw_edu_year = st.text_input(
                             "Tahun Terakhir Pendidikan / Kelulusan :red[*]",
-                            value=str(st.session_state.get("last_edu_year") or ""),
                             placeholder="Contoh: 2022",
-                            key="input_last_edu_year_m",
+                            key="input_last_edu_year",
                             max_chars=4,
                             help=f"Masukkan 4 digit tahun kelulusan terakhir (1990 – {current_year})."
                         )
@@ -2471,12 +2485,17 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                         if last_edu_year is not None and 1990 <= last_edu_year <= current_year:
                             st.session_state["sec2_year_err"] = False
 
-                        if st.session_state.get("sec2_year_err"):
+                        if st.session_state.get("sec2_year_err") and (last_edu_year is None or last_edu_year < 1990 or last_edu_year > current_year):
                             st.markdown(
                                 '<style>'
-                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"]:first-child div[data-baseweb="input"], '
                                 'div[class*="st-key-inner_card_sec2"] div[data-testid="column"]:first-child [data-testid="stTextInputRootElement"], '
-                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"]:first-child div:has(> input) { '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"]:first-child div.react-aria-Group, '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"]:first-child [data-baseweb="input"], '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"]:first-child div:has(> input), '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stColumn"]:first-child [data-testid="stTextInputRootElement"], '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stColumn"]:first-child div.react-aria-Group, '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stColumn"]:first-child [data-baseweb="input"], '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stColumn"]:first-child div:has(> input) { '
                                 '    border: 1.5px solid #EF4444 !important; '
                                 '    border-color: #EF4444 !important; '
                                 '    box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.2) !important; '
@@ -2509,9 +2528,30 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                         if st.session_state.get("sec2_month_err") and bulan_lulus is None:
                             st.markdown(
                                 '<style>'
-                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"]:last-child div[data-baseweb="select"] > div, '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"]:nth-child(2) div[data-testid="stSelectbox"] > div:nth-child(2), '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"]:nth-child(2) div[data-testid="stSelectbox"] div[role="group"], '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"]:nth-child(2) div[data-testid="stSelectbox"] div[class*="e1oobldh0"], '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"]:nth-child(2) [data-baseweb="select"] > div, '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"]:nth-child(2) div.react-aria-Group, '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"]:nth-child(2) div:has(> input), '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stColumn"]:nth-child(2) div[data-testid="stSelectbox"] > div:nth-child(2), '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stColumn"]:nth-child(2) div[data-testid="stSelectbox"] div[role="group"], '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stColumn"]:nth-child(2) div[data-testid="stSelectbox"] div[class*="e1oobldh0"], '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stColumn"]:nth-child(2) [data-baseweb="select"] > div, '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stColumn"]:nth-child(2) div.react-aria-Group, '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stColumn"]:nth-child(2) div:has(> input), '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"]:last-child div[data-testid="stSelectbox"] > div:nth-child(2), '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"]:last-child div[data-testid="stSelectbox"] div[role="group"], '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"]:last-child div[data-testid="stSelectbox"] div[class*="e1oobldh0"], '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"]:last-child [data-baseweb="select"] > div, '
                                 'div[class*="st-key-inner_card_sec2"] div[data-testid="column"]:last-child div.react-aria-Group, '
-                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"]:last-child div:has(> input) { '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"]:last-child div:has(> input), '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stColumn"]:last-child div[data-testid="stSelectbox"] > div:nth-child(2), '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stColumn"]:last-child div[data-testid="stSelectbox"] div[role="group"], '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stColumn"]:last-child div[data-testid="stSelectbox"] div[class*="e1oobldh0"], '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stColumn"]:last-child [data-baseweb="select"] > div, '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stColumn"]:last-child div.react-aria-Group, '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stColumn"]:last-child div:has(> input) { '
                                 '    border: 1.5px solid #EF4444 !important; '
                                 '    border-color: #EF4444 !important; '
                                 '    box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.2) !important; '
@@ -2536,9 +2576,8 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                     with col_year:
                         raw_edu_year = st.text_input(
                             "Tahun Terakhir Pendidikan / Kelulusan :red[*]",
-                            value=str(st.session_state.get("last_edu_year") or ""),
                             placeholder="Contoh: 2021",
-                            key="input_last_edu_year_y",
+                            key="input_last_edu_year",
                             max_chars=4,
                             help=f"Masukkan 4 digit tahun kelulusan terakhir (1990 – {current_year})."
                         )
@@ -2553,15 +2592,17 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                         else:
                             st.session_state["gap_year"] = 0.0
 
-                        if st.session_state.get("sec2_year_err"):
+                        if st.session_state.get("sec2_year_err") and (last_edu_year is None or last_edu_year < 1990 or last_edu_year > current_year):
                             st.markdown(
                                 '<style>'
-                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"] div[data-baseweb="input"], '
                                 'div[class*="st-key-inner_card_sec2"] div[data-testid="column"] [data-testid="stTextInputRootElement"], '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"] div.react-aria-Group, '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="column"] [data-baseweb="input"], '
                                 'div[class*="st-key-inner_card_sec2"] div[data-testid="column"] div:has(> input), '
-                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stTextInput"] [data-baseweb="input"], '
-                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stTextInput"] [data-testid="stTextInputRootElement"], '
-                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stTextInput"] div:has(> input) { '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stColumn"] [data-testid="stTextInputRootElement"], '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stColumn"] div.react-aria-Group, '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stColumn"] [data-baseweb="input"], '
+                                'div[class*="st-key-inner_card_sec2"] div[data-testid="stColumn"] div:has(> input) { '
                                 '    border: 1.5px solid #EF4444 !important; '
                                 '    border-color: #EF4444 !important; '
                                 '    box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.2) !important; '
@@ -2641,7 +2682,8 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                         st.session_state["sec2_year_err"] = False
 
                     if gap_mode == "Mengetahui Bulan dan Tahun":
-                        if bulan_lulus is None:
+                        sel_bln = st.session_state.get("select_bulan_lulus") or bulan_lulus
+                        if sel_bln is None:
                             st.session_state["sec2_month_err"] = True
                             has_err = True
                         else:
@@ -2658,106 +2700,71 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                         st.session_state.current_section = 3
                         st.rerun()
 
-        year_err_val = "true" if st.session_state.get("sec2_year_err") else "false"
-        month_err_val = "true" if st.session_state.get("sec2_month_err") else "false"
-
-        components.html(f"""
+        components.html("""
         <script>
-        function bindYearAutoCommitAndBorders() {{
-            try {{
+        function bindSec2() {
+            try {
                 const doc = window.parent.document;
-                const curYear = {current_year};
-                const hasYearErr = {year_err_val};
-                const hasMonthErr = {month_err_val};
-                const gapModeIsBoth = "{gap_mode}" === "Mengetahui Bulan dan Tahun";
+                const inputs = doc.querySelectorAll('div[class*="st-key-inner_card_sec2"] div[data-testid="stTextInput"] input');
+                inputs.forEach(inp => {
+                    const wrap = inp.closest('[data-testid="stTextInputRootElement"]') || inp.closest('div.react-aria-Group') || inp.closest('[data-baseweb="input"]') || inp.parentElement;
+                    if (!wrap) return;
 
-                const selQuery = [
-                    '[data-testid="stTextInputRootElement"]',
-                    'div[data-testid="stTextInput"] [data-testid="stTextInputRootElement"]',
-                    'div[data-testid="stTextInput"] div.react-aria-Group',
-                    'div[data-testid="stTextInput"] div[class*="e1bh1cux2"]',
-                    'div[data-testid="stTextInput"] div:has(> input)',
-                    'div[data-testid="stTextInput"] div[data-baseweb="input"]',
-                    'div[data-testid="stSelectbox"] div.react-aria-Group',
-                    'div[data-testid="stSelectbox"] div[class*="e1oobldh0"]',
-                    'div[data-testid="stSelectbox"] div[role="group"]',
-                    'div[data-testid="stSelectbox"] div:has(> input)',
-                    'div[data-testid="stSelectbox"] > div:nth-child(2)',
-                    'div[data-testid="stSelectbox"] div[data-baseweb="select"] > div'
-                ].join(', ');
+                    wrap.style.setProperty('position', 'relative', 'important');
+                    inp.style.setProperty('padding-right', '36px', 'important');
 
-                doc.querySelectorAll(selQuery).forEach(wrap => {{
-                    wrap.style.setProperty('background-color', '#FFFFFF', 'important');
-                    wrap.style.setProperty('background', '#FFFFFF', 'important');
-                    wrap.style.setProperty('border', '1.5px solid #CBD5E1', 'important');
-                    wrap.style.setProperty('border-color', '#CBD5E1', 'important');
-                    wrap.style.setProperty('border-width', '1.5px', 'important');
-                    wrap.style.setProperty('border-style', 'solid', 'important');
-                    wrap.style.setProperty('border-radius', '8px', 'important');
-                    wrap.style.setProperty('height', '42px', 'important');
-                    wrap.style.setProperty('min-height', '42px', 'important');
-                    wrap.style.setProperty('box-sizing', 'border-box', 'important');
-                }});
+                    let btn = wrap.querySelector('.st-custom-clear-btn');
+                    if (!btn) {
+                        btn = doc.createElement('div');
+                        btn.className = 'st-custom-clear-btn';
+                        btn.setAttribute('role', 'button');
+                        btn.setAttribute('title', 'Hapus input');
+                        btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:block; pointer-events:none;">
+                            <circle cx="12" cy="12" r="10" fill="#0284C7"></circle>
+                            <path d="M15 9L9 15M9 9l6 6" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"></path>
+                        </svg>`;
+                        btn.addEventListener('mousedown', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+                            nativeSetter.call(inp, '');
+                            inp.dispatchEvent(new Event('input', { bubbles: true }));
+                            inp.dispatchEvent(new Event('change', { bubbles: true }));
+                            btn.style.display = 'none';
+                            inp.focus();
+                        });
+                        wrap.appendChild(btn);
+                    }
 
-                if (gapModeIsBoth) {{
-                    const cols = doc.querySelectorAll('div[class*="st-key-inner_card_sec2"] div[data-testid="column"]');
-                    if (cols.length >= 2) {{
-                        const yearInp = cols[0].querySelector('[data-baseweb="input"], [data-testid="stTextInputRootElement"], div:has(> input)');
-                        if (yearInp && hasYearErr) {{
-                            yearInp.style.setProperty('border', '1.5px solid #EF4444', 'important');
-                            yearInp.style.setProperty('border-color', '#EF4444', 'important');
-                            yearInp.style.setProperty('box-shadow', '0 0 0 1px rgba(239, 68, 68, 0.2)', 'important');
-                        }}
-                        const monthSel = cols[1].querySelector('div[data-baseweb="select"] > div, div.react-aria-Group, div:has(> input)');
-                        if (monthSel && hasMonthErr) {{
-                            monthSel.style.setProperty('border', '1.5px solid #EF4444', 'important');
-                            monthSel.style.setProperty('border-color', '#EF4444', 'important');
-                            monthSel.style.setProperty('box-shadow', '0 0 0 1px rgba(239, 68, 68, 0.2)', 'important');
-                        }}
-                    }}
-                }} else {{
-                    const yearInp = doc.querySelector('div[class*="st-key-inner_card_sec2"] [data-baseweb="input"], div[class*="st-key-inner_card_sec2"] [data-testid="stTextInputRootElement"]');
-                    if (yearInp && hasYearErr) {{
-                        yearInp.style.setProperty('border', '1.5px solid #EF4444', 'important');
-                        yearInp.style.setProperty('border-color', '#EF4444', 'important');
-                        yearInp.style.setProperty('box-shadow', '0 0 0 1px rgba(239, 68, 68, 0.2)', 'important');
-                    }}
-                }}
+                    const updateVisibility = () => {
+                        const val = inp.value || "";
+                        btn.style.display = (val.trim().length > 0) ? 'flex' : 'none';
+                    };
 
-                doc.querySelectorAll('div[data-testid="stTextInput"] input, div[data-testid="stSelectbox"] input').forEach(inp => {{
-                    inp.style.setProperty('background-color', 'transparent', 'important');
-                    inp.style.setProperty('background', 'transparent', 'important');
-                    inp.style.setProperty('color', '#17324D', 'important');
-                    inp.style.setProperty('font-size', '13px', 'important');
-                }});
-
-                const inputs = doc.querySelectorAll('div[data-testid="stTextInput"] input');
-                inputs.forEach(inp => {{
-                    const wrap = inp.closest('[data-testid="stTextInputRootElement"]') || inp.closest('div.react-aria-Group') || inp.closest('div[class*="e1bh1cux2"]') || inp.parentElement;
-                    if (!inp.dataset.autoCommitBound) {{
-                        inp.dataset.autoCommitBound = "true";
+                    if (!inp.dataset.sec2Bound) {
+                        inp.dataset.sec2Bound = "true";
                         let timer = null;
-                        inp.addEventListener('input', function() {{
+                        inp.addEventListener('input', function() {
+                            updateVisibility();
                             if (timer) clearTimeout(timer);
                             const digits = (this.value || "").replace(/\\D/g, "");
-                            if (digits.length === 4) {{
-                                if (wrap) {{
-                                    wrap.style.setProperty('border', '1.5px solid #CBD5E1', 'important');
-                                    wrap.style.setProperty('border-color', '#CBD5E1', 'important');
-                                    wrap.style.setProperty('box-shadow', 'none', 'important');
-                                }}
-                                timer = setTimeout(() => {{
-                                    this.dispatchEvent(new Event('change', {{ bubbles: true }}));
+                            if (digits.length === 4) {
+                                timer = setTimeout(() => {
+                                    this.dispatchEvent(new Event('change', { bubbles: true }));
                                     this.blur();
-                                }}, 150);
-                            }}
-                        }});
-                    }}
-                }});
-            }} catch(e) {{}}
-        }}
-        bindYearAutoCommitAndBorders();
-        setTimeout(bindYearAutoCommitAndBorders, 50);
+                                }, 150);
+                            }
+                        });
+                        inp.addEventListener('change', updateVisibility);
+                        inp.addEventListener('keyup', updateVisibility);
+                    }
+                    updateVisibility();
+                });
+            } catch(e) {}
+        }
+        bindSec2();
+        setTimeout(bindSec2, 50);
+        setTimeout(bindSec2, 200);
         </script>
         """, height=0, width=0)
 
@@ -2892,14 +2899,20 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                         english_prof = None
                     st.session_state["english_prof"] = english_prof
 
-                    is_ielts_invalid = (raw_ielts_str and (english_prof is None or english_prof < 1.0 or english_prof > 9.0)) or (st.session_state.get("ielts_show_error", False) and (english_prof is None or english_prof < 1.0 or english_prof > 9.0))
+                    is_ielts_invalid = st.session_state.get("ielts_show_error", False) and (english_prof is None or english_prof < 1.0 or english_prof > 9.0)
+                    if not is_ielts_invalid and raw_ielts_str and (english_prof is None or english_prof < 1.0 or english_prof > 9.0):
+                        is_ielts_invalid = True
                     if is_ielts_invalid:
                         ielts_err_text = "Silahkan masukkan skor IELTS" if not raw_ielts_str else "Skor resmi IELTS harus berada pada rentang 1.0 hingga 9.0"
                         st.markdown(
                             '<style>'
+                            'div[class*="st-key-ielts_raw_input"] [data-baseweb="input"], '
+                            'div[class*="st-key-ielts_raw_input"] [data-testid="stTextInputRootElement"], '
+                            'div[class*="st-key-ielts_raw_input"] div:has(> input), '
                             'div[class*="st-key-inner_card_sec4"] div[data-testid="stHorizontalBlock"]:first-child div[data-testid="column"]:first-child [data-baseweb="input"], '
                             'div[class*="st-key-inner_card_sec4"] div[data-testid="stHorizontalBlock"]:first-child div[data-testid="column"]:first-child [data-testid="stTextInputRootElement"], '
-                            'div[class*="st-key-inner_card_sec4"] div[data-testid="stHorizontalBlock"]:first-child div[data-testid="column"]:first-child div:has(> input) { '
+                            'div[class*="st-key-inner_card_sec4"] div[data-testid="stHorizontalBlock"]:first-child div[data-testid="stColumn"]:first-child [data-baseweb="input"], '
+                            'div[class*="st-key-inner_card_sec4"] div[data-testid="stHorizontalBlock"]:first-child div[data-testid="stColumn"]:first-child [data-testid="stTextInputRootElement"] { '
                             '    border: 1.5px solid #EF4444 !important; '
                             '    border-color: #EF4444 !important; '
                             '    box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.2) !important; '
@@ -2926,14 +2939,20 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                     st.session_state["financial_nominal"] = financial_nominal
 
                     raw_fin = str(st.session_state.get("fin_input_str", "")).strip()
-                    is_fin_invalid = (raw_fin and (financial_nominal is None or financial_nominal < 10_000_000)) or (st.session_state.get("fin_show_error", False) and (financial_nominal is None or financial_nominal < 10_000_000))
+                    is_fin_invalid = st.session_state.get("fin_show_error", False) and (financial_nominal is None or financial_nominal < 10_000_000)
+                    if not is_fin_invalid and raw_fin and (financial_nominal is None or financial_nominal < 10_000_000):
+                        is_fin_invalid = True
                     if is_fin_invalid:
                         fin_err_text = "Silahkan masukkan nominal tabungan/finansial" if not raw_fin else "Format belum lengkap, contoh: 500.000.000 (minimal Rp 10.000.000)"
                         st.markdown(
                             '<style>'
+                            'div[class*="st-key-fin_raw_input"] [data-baseweb="input"], '
+                            'div[class*="st-key-fin_raw_input"] [data-testid="stTextInputRootElement"], '
+                            'div[class*="st-key-fin_raw_input"] div:has(> input), '
                             'div[class*="st-key-inner_card_sec4"] div[data-testid="stHorizontalBlock"]:first-child div[data-testid="column"]:last-child [data-baseweb="input"], '
                             'div[class*="st-key-inner_card_sec4"] div[data-testid="stHorizontalBlock"]:first-child div[data-testid="column"]:last-child [data-testid="stTextInputRootElement"], '
-                            'div[class*="st-key-inner_card_sec4"] div[data-testid="stHorizontalBlock"]:first-child div[data-testid="column"]:last-child div:has(> input) { '
+                            'div[class*="st-key-inner_card_sec4"] div[data-testid="stHorizontalBlock"]:first-child div[data-testid="stColumn"]:last-child [data-baseweb="input"], '
+                            'div[class*="st-key-inner_card_sec4"] div[data-testid="stHorizontalBlock"]:first-child div[data-testid="stColumn"]:last-child [data-testid="stTextInputRootElement"] { '
                             '    border: 1.5px solid #EF4444 !important; '
                             '    border-color: #EF4444 !important; '
                             '    box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.2) !important; '
