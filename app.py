@@ -2719,6 +2719,7 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                         btn.className = 'st-custom-clear-btn';
                         btn.setAttribute('role', 'button');
                         btn.setAttribute('title', 'Hapus input');
+                        btn.style.setProperty('display', 'none', 'important');
                         btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:block; pointer-events:none;">
                             <circle cx="12" cy="12" r="10" fill="#0284C7"></circle>
                             <path d="M15 9L9 15M9 9l6 6" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"></path>
@@ -2730,7 +2731,7 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                             nativeSetter.call(inp, '');
                             inp.dispatchEvent(new Event('input', { bubbles: true }));
                             inp.dispatchEvent(new Event('change', { bubbles: true }));
-                            btn.style.display = 'none';
+                            btn.style.setProperty('display', 'none', 'important');
                             inp.focus();
                         });
                         wrap.appendChild(btn);
@@ -2738,7 +2739,11 @@ if st.session_state.current_section in [1, 2, 3, 4]:
 
                     const updateVisibility = () => {
                         const val = inp.value || "";
-                        btn.style.display = (val.trim().length > 0) ? 'flex' : 'none';
+                        if (val.trim().length > 0) {
+                            btn.style.setProperty('display', 'flex', 'important');
+                        } else {
+                            btn.style.setProperty('display', 'none', 'important');
+                        }
                     };
 
                     if (!inp.dataset.sec2Bound) {
@@ -3040,6 +3045,68 @@ if st.session_state.current_section in [1, 2, 3, 4]:
                         st.session_state["fin_show_error"] = False
                         st.session_state.current_section = 5
                         st.rerun()
+
+        components.html("""
+        <script>
+        function bindSec4Clear() {
+            try {
+                const doc = window.parent.document;
+                const inputs = doc.querySelectorAll('div[class*="st-key-inner_card_sec4"] div[data-testid="stTextInput"] input');
+                inputs.forEach(inp => {
+                    const wrap = inp.closest('[data-testid="stTextInputRootElement"]') || inp.closest('div.react-aria-Group') || inp.closest('[data-baseweb="input"]') || inp.parentElement;
+                    if (!wrap) return;
+
+                    wrap.style.setProperty('position', 'relative', 'important');
+                    inp.style.setProperty('padding-right', '36px', 'important');
+
+                    let btn = wrap.querySelector('.st-custom-clear-btn');
+                    if (!btn) {
+                        btn = doc.createElement('div');
+                        btn.className = 'st-custom-clear-btn';
+                        btn.setAttribute('role', 'button');
+                        btn.setAttribute('title', 'Hapus input');
+                        btn.style.setProperty('display', 'none', 'important');
+                        btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="display:block; pointer-events:none;">
+                            <circle cx="12" cy="12" r="10" fill="#0284C7"></circle>
+                            <path d="M15 9L9 15M9 9l6 6" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round"></path>
+                        </svg>`;
+                        btn.addEventListener('mousedown', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+                            nativeSetter.call(inp, '');
+                            inp.dispatchEvent(new Event('input', { bubbles: true }));
+                            inp.dispatchEvent(new Event('change', { bubbles: true }));
+                            btn.style.setProperty('display', 'none', 'important');
+                            inp.focus();
+                        });
+                        wrap.appendChild(btn);
+                    }
+
+                    const updateVisibility = () => {
+                        const val = inp.value || "";
+                        if (val.trim().length > 0) {
+                            btn.style.setProperty('display', 'flex', 'important');
+                        } else {
+                            btn.style.setProperty('display', 'none', 'important');
+                        }
+                    };
+
+                    if (!inp.dataset.sec4ClearBound) {
+                        inp.dataset.sec4ClearBound = "true";
+                        inp.addEventListener('input', updateVisibility);
+                        inp.addEventListener('change', updateVisibility);
+                        inp.addEventListener('keyup', updateVisibility);
+                    }
+                    updateVisibility();
+                });
+            } catch(e) {}
+        }
+        bindSec4Clear();
+        setTimeout(bindSec4Clear, 50);
+        setTimeout(bindSec4Clear, 200);
+        </script>
+        """, height=0, width=0)
 
 # =============================================================
 # SECTION 5: HASIL PREDIKSI & EVALUASI PROFIL
